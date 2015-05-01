@@ -15,4 +15,7 @@ SRPM_NAME=`basename $SRPM`
 mkdir -p $SRPMS_MOUNT_DIR
 cp $SRPM $SRPMS_MOUNT_DIR
 
-docker run -e SRPM_NAME=$SRPM_NAME -i --rm=true -t -v $SRPMS_MOUNT_DIR:/mnt/docker-SRPMS xenserver/xenserver-build-env
+docker run \
+    -e SRPM_NAME=$SRPM_NAME \
+    -i --rm=true -t \
+    -v $SRPMS_MOUNT_DIR:/mnt/docker-SRPMS xenserver/xenserver-build-env
