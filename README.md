@@ -23,8 +23,17 @@ For more info, see:
 Start a container with a specified SRPM and XenServer branch name like so:
 
 ```
-./run.sh xapi-1.9.57-7306.src.rpm trunk-ring3
+./run.sh xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm trunk-ring3
 ```
 
 The container will run yum-builddep against the SRPM, using the yum repository
-for the specified branch, and drop you into an interactive shell.
+for the specified branch, and drop you into an interactive shell. You should
+then have all the dependencies to be able to build the component whose SRPM was
+specified above, e.g.
+
+```
+git clone git://github.com/xapi-project/xenopsd
+cd xenopsd
+./configure
+make
+```
