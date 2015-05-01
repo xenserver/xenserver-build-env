@@ -40,7 +40,7 @@ RUN     echo "builder:builder" | chpasswd
 RUN     echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN     usermod -G mock builder
 
-ADD     files/install-deps.sh          /root/install-deps.sh
+ADD     files/init-container.sh        /root/init-container.sh
 
 # By default, running the container will drop you in as the builder user
-CMD     /root/install-deps.sh && su - builder
+CMD     /root/init-container.sh && su - builder
