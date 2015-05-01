@@ -20,11 +20,11 @@ For more info, see:
 * https://bugs.centos.org/view.php?id=7480
 * https://github.com/docker/docker/issues/6980
 
-Start a container with a specified SRPM like so:
+Start a container with a specified SRPM and XenServer branch name like so:
 
 ```
-./run.sh <SRPM-PATH>
+./run.sh xapi-1.9.57-7306.src.rpm trunk-ring3
 ```
 
-The container will run yum-builddep against the SRPM, and drop you into an
-interactive shell.
+The container will run yum-builddep against the SRPM, using the yum repository
+for the specified branch, and drop you into an interactive shell.

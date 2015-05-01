@@ -7,7 +7,7 @@ ADD     files/yum.conf                 /etc/yum.conf
 # Add the Citrix yum repo and GPG key
 # Citrix.repo specifies trunk-ring3 branch - this can be changed.
 RUN     mkdir -p /etc/yum.repos.d.xs
-ADD     files/Citrix.repo              /etc/yum.repos.d.xs/Citrix.repo
+ADD     files/Citrix.repo.in           /root/Citrix.repo.in
 ADD     files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
 
 # Build requirements
@@ -40,7 +40,7 @@ RUN     echo "builder:builder" | chpasswd
 RUN     echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN     usermod -G mock builder
 
-ADD     files/install-deps.sh          /root/install-deps.sh
+ADD     files/init-container.sh        /root/init-container.sh
 
 # By default, running the container will drop you in as the builder user
-CMD     /root/install-deps.sh && su - builder
+CMD     /root/init-container.sh && su - builder
