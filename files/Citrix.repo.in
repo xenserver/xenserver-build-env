@@ -1,6 +1,6 @@
 [citrix]
 name=XenServer 6.6 updates
-baseurl=http://coltrane.uk.xensource.com/usr/groups/build/trunk-ring3/latest/binary-packages/RPMS/domain0/RPMS/
+baseurl=http://coltrane.uk.xensource.com/usr/groups/build/@XS_BRANCH@/latest/binary-packages/RPMS/domain0/RPMS/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
 enabled=1
@@ -8,7 +8,7 @@ exclude=kernel-headers
 
 [citrix-source]
 name=XenServer 6.6 updates
-baseurl=http://coltrane.uk.xensource.com/usr/groups/build/trunk-ring3/latest/binary-packages/RPMS/domain0/SRPMS/
+baseurl=http://coltrane.uk.xensource.com/usr/groups/build/@XS_BRANCH@/latest/binary-packages/RPMS/domain0/SRPMS/
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
 enabled=1
