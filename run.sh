@@ -3,7 +3,7 @@
 if [ $# -ne 2 ]
 then
     echo "Usage:"
-    echo "./run.sh <SRPM URL> <XS BRANCH>"
+    echo "./run.sh <SRPM PATH> <XS BRANCH>"
     exit 1
 fi
 
