@@ -4,6 +4,9 @@ set -eux
 
 sed -e "s/@XS_BRANCH@/${XS_BRANCH}/" /root/Citrix.repo.in > /etc/yum.repos.d.xs/Citrix.repo
 
-SRPM=/mnt/docker-SRPMS/$SRPM_NAME
+SRPMS=`ls /mnt/docker-SRPMS/*.src.rpm`
 
-yum-builddep -y $SRPM
+for SRPM in $SRPMS
+do
+    yum-builddep -y $SRPM
+done
