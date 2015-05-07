@@ -26,6 +26,9 @@ def copy_srpms(srpm_mount_dir, srpms):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-w', dest='working_dir',
+                        help='Optional working directory to be mounted '
+                             'in the container')
     parser.add_argument('xs_branch', help='XenServer branch name')
     parser.add_argument('srpms', nargs=argparse.REMAINDER,
                         help='SRPMs for which dependencies will be installed')
@@ -34,6 +37,9 @@ def main():
         "docker", "run", "-e", "XS_BRANCH=%s" % args.xs_branch,
         "-i", "--rm=true", "-t"
         ]
+    # Mount the working directory, if applicable
+    if args.working_dir != None:
+        docker_args += ["-v", "%s:/mnt/working-dir" % args.working_dir]
     # Copy all the RPMs to the mount directory
     if args.srpms != []:
         srpm_mount_dir = make_mount_dir()
