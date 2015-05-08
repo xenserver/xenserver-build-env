@@ -32,7 +32,7 @@ def main():
     args = parser.parse_args(sys.argv[1:])
     docker_args = [
         "docker", "run", "-e", "XS_BRANCH=%s" % args.xs_branch,
-        "-i", "--rm=true", "-t"
+        "-i", "--rm=true", "-t", "-u", "builder"
         ]
     # Copy all the RPMs to the mount directory
     if args.srpms != []:
