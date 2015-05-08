@@ -40,7 +40,7 @@ def main():
         copy_srpms(srpm_mount_dir, args.srpms)
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
     # exec "docker run"
-    docker_args += [CONTAINER]
+    docker_args += [CONTAINER, "/root/init-container.sh"]
     print "Launching docker with args %s" % docker_args
     os.execv(DOCKER_PATH, docker_args)
 

@@ -41,6 +41,3 @@ RUN     echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN     usermod -G mock builder
 
 ADD     files/init-container.sh        /root/init-container.sh
-
-# By default, running the container will drop you in as the builder user
-CMD     /root/init-container.sh && su - builder

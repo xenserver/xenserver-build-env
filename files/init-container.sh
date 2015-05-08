@@ -15,3 +15,5 @@ then
         yum-builddep -y $SRPM
     done
 fi
+
+su - builder
