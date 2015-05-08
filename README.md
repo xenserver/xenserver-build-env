@@ -42,7 +42,7 @@ For more info, see:
 ## Usage
 Start a container with a XenServer branch name and at least one SRPM like so:
 
-```
+```sh
 ./run.py trunk-ring3 xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
 ```
 
@@ -51,9 +51,40 @@ for the specified branch, and drop you into an interactive shell. You should
 then have all the dependencies to be able to build the component whose SRPM was
 specified above, e.g.
 
-```
+```sh
 git clone git://github.com/xapi-project/xenopsd
 cd xenopsd
 ./configure
 make
+```
+
+## Mounting repos from outside the container
+If you'd like to develop using the tools on your host and preseve the changes
+to source and revision control but still use the container for building, you
+can do using by using a docker volume.
+
+Once you have built your image you can run it with an extra argument to mount
+a directory from your host to a suitable point inside the container. For
+example, if I clone some repos into a directory on my host, say `/work/code/`,
+then I can mount it inside the container as follows:
+
+```sh
+docker run -i -t -v /work/code:/mnt/repos -u $(id -u) <IMAGE> /bin/bash
+```
+
+The `-u` flag uses the right UID inside so that changes made in the container
+are with the same UID as outside the container. Docker >=1.6 supports group IDs
+as well and both the group and user can be referenced by name. To get the
+latest version see the installation instructions on http://docker.io.
+
+On Ubuntu >=14.04, the following command will get the latest version of docker:
+
+```sh
+wget -qO- https://get.docker.com/ | sh
+```
+
+Then the following format is available to set the UID/GID:
+
+```
+-u, --user=                Username or UID (format: <name|uid>[:<group|gid>])
 ```
