@@ -8,7 +8,7 @@ sed -e "s/@XS_BRANCH@/${XS_BRANCH}/" /root/Citrix.repo.in > /etc/yum.repos.d.xs/
 
 if [ -d $SRPM_MOUNT_DIR ]
 then
-    SRPMS=`ls ${SRPM_MOUNT_DIR}/*.src.rpm`
+    SRPMS=`find $SRPM_MOUNT_DIR -name *.src.rpm`
 
     for SRPM in $SRPMS
     do
