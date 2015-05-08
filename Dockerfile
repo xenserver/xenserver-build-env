@@ -40,4 +40,5 @@ RUN     echo "builder:builder" | chpasswd
 RUN     echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN     usermod -G mock builder
 
-ADD     files/init-container.sh        /root/init-container.sh
+RUN     mkdir -p /usr/local/bin
+ADD     files/init-container.sh        /usr/local/bin/init-container.sh
