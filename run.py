@@ -28,10 +28,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch', help='XenServer branch name (default trunk)',
                         default='trunk')
-    parser.add_argument('-s', '--srpm', action='append', 
+    parser.add_argument('-s', '--srpm', action='append',
                         help='SRPMs for which dependencies will be installed')
     parser.add_argument('-d', '--dir', action='append', help='Local dir to mount in the '
-			'image. Will be mounted at /external/<dirname>')
+                        'image. Will be mounted at /external/<dirname>')
     parser.add_argument('--rm', action='store_true', help='Destroy the container on exit')
 
     args = parser.parse_args(sys.argv[1:])
@@ -40,7 +40,7 @@ def main():
         "-i", "-t", "-u", "builder"
         ]
     if args.rm:
-	docker_args += ["--rm=true"]
+        docker_args += ["--rm=true"]
     # Copy all the RPMs to the mount directory
     if args.srpm != []:
         srpm_mount_dir = make_mount_dir()
@@ -48,7 +48,7 @@ def main():
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
     for localdir in args.dir:
         dirname = os.path.basename(localdir)
-	if not os.path.isdir(localdir):
+        if not os.path.isdir(localdir):
             print "Local directory argument is not a directory!"
             os.exit(1)
         docker_args += ["-v", "%s:/external/%s" % (localdir, dirname)]
