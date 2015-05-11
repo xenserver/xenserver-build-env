@@ -46,12 +46,13 @@ def main():
         srpm_mount_dir = make_mount_dir()
         copy_srpms(srpm_mount_dir, args.srpm)
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
-    for localdir in args.dir:
-        dirname = os.path.basename(localdir)
-        if not os.path.isdir(localdir):
-            print "Local directory argument is not a directory!"
-            sys.exit(1)
-        docker_args += ["-v", "%s:/external/%s" % (localdir, dirname)]
+    if args.dir:
+        for localdir in args.dir:
+            dirname = os.path.basename(localdir)
+            if not os.path.isdir(localdir):
+                print "Local directory argument is not a directory!"
+                sys.exit(1)
+            docker_args += ["-v", "%s:/external/%s" % (localdir, dirname)]
 
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
