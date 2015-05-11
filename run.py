@@ -26,19 +26,33 @@ def copy_srpms(srpm_mount_dir, srpms):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('xs_branch', help='XenServer branch name')
-    parser.add_argument('srpms', nargs=argparse.REMAINDER,
+    parser.add_argument('-b', '--branch', help='XenServer branch name (default trunk)',
+                        default='trunk')
+    parser.add_argument('-s', '--srpm', action='append', 
                         help='SRPMs for which dependencies will be installed')
+    parser.add_argument('-d', '--dir', action='append', help='Local dir to mount in the '
+			'image. Will be mounted at /external/<dirname>')
+    parser.add_argument('--rm', action='store_true', help='Destroy the container on exit')
+
     args = parser.parse_args(sys.argv[1:])
     docker_args = [
-        "docker", "run", "-e", "XS_BRANCH=%s" % args.xs_branch,
-        "-i", "--rm=true", "-t", "-u", "builder"
+        "docker", "run", "-e", "XS_BRANCH=%s" % args.branch,
+        "-i", "-t", "-u", "builder"
         ]
+    if args.rm:
+	docker_args += ["--rm=true"]
     # Copy all the RPMs to the mount directory
-    if args.srpms != []:
+    if args.srpm != []:
         srpm_mount_dir = make_mount_dir()
-        copy_srpms(srpm_mount_dir, args.srpms)
+        copy_srpms(srpm_mount_dir, args.srpm)
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
+    for localdir in args.dir:
+        dirname = os.path.basename(localdir)
+	if not os.path.isdir(localdir):
+            print "Local directory argument is not a directory!"
+            os.exit(1)
+        docker_args += ["-v", "%s:/external/%s" % (localdir, dirname)]
+
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
     print "Launching docker with args %s" % docker_args
