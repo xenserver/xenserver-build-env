@@ -50,7 +50,7 @@ def main():
         dirname = os.path.basename(localdir)
         if not os.path.isdir(localdir):
             print "Local directory argument is not a directory!"
-            os.exit(1)
+            sys.exit(1)
         docker_args += ["-v", "%s:/external/%s" % (localdir, dirname)]
 
     # exec "docker run"
