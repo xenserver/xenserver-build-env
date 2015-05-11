@@ -42,7 +42,7 @@ def main():
     if args.rm:
         docker_args += ["--rm=true"]
     # Copy all the RPMs to the mount directory
-    if args.srpm != []:
+    if args.srpm:
         srpm_mount_dir = make_mount_dir()
         copy_srpms(srpm_mount_dir, args.srpm)
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
