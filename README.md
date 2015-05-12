@@ -7,8 +7,28 @@ pacakge. You will then be in a chroot from which you can clone and build the
 source.
 
 ## Configuration
-You'll need to install docker. For most distros this is packaged as
-`docker.io`.
+You'll need to install docker.
+
+### OS X
+
+First install [Homebrew](http://brew.sh/) and [virtualbox](http://www.virtualbox.org); then
+```
+brew install docker boot2docker
+```
+Initialise boot2docker:
+```
+boot2docker init
+boot2docker up
+```
+Make sure you export the environment variables it gives you. Test that docker
+is working by
+```
+docker info
+```
+
+### Linux
+
+For most distros this is packaged as `docker.io`.
 
 If you'd like to run docker with a non-root account you can add your user to
 the docker group:
@@ -40,6 +60,11 @@ For more info, see:
 * https://github.com/docker/docker/issues/6980
 
 ## Usage
+
+Find an SRPM you'd like to build, either one you've built yourself, or
+one from the
+[build system](http://coltrane.uk.xensource.com/usr/groups/build/trunk/latest/binary-packages/RPMS/domain0/SRPMS/)
+
 Start a container with a XenServer branch name and at least one SRPM like so:
 
 ```sh
