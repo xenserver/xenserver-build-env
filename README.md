@@ -43,7 +43,7 @@ For more info, see:
 Start a container with a XenServer branch name and at least one SRPM like so:
 
 ```sh
-./run.py trunk-ring3 xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
+./run.py -b trunk-ring3 -s xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
 ```
 
 The container will run yum-builddep against the SRPM, using the yum repository
