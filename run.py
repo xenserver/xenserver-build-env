@@ -10,6 +10,15 @@ import uuid
 
 CONTAINER = "xenserver/xenserver-build-env"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
+# On OS X with boot2docker there are limits, see:
+# http://blog.docker.com/2014/10/docker-1-3-signed-images-process-injection-security-options-mac-shared-directories/
+# https://github.com/docker/docker/issues/4023
+if sys.platform == 'darwin':
+    home = os.getenv("HOME")
+    if not home.startswith("/Users"):
+        print >>sys.stderr, "On OS X $HOME needs to be within /Users for mounting to work"
+        exit(1)
+    SRPMS_MOUNT_ROOT = home + SRPMS_MOUNT_ROOT
 
 def make_mount_dir():
     srpm_mount_dir = os.path.join(SRPMS_MOUNT_ROOT, str(uuid.uuid4()))
