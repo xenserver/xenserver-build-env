@@ -3,12 +3,12 @@
 import argparse
 import os
 import os.path
+import subprocess
 import shutil
 import sys
 import uuid
 
 CONTAINER = "xenserver/xenserver-build-env"
-DOCKER_PATH = "/usr/bin/docker"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 
 def make_mount_dir():
@@ -57,7 +57,7 @@ def main():
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
     print "Launching docker with args %s" % docker_args
-    os.execv(DOCKER_PATH, docker_args)
+    subprocess.call(docker_args)
 
 if __name__ == "__main__":
     main()
