@@ -15,8 +15,9 @@ import uuid
 
 CONTAINER = "xenserver/xenserver-build-env"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
+# pylint: disable=C0301
 # On OS X with boot2docker there are limits, see:
-# http://blog.docker.com/2014/10/docker-1-3-signed-images-process-injection-security-options-mac-shared-directories/
+# http://blog.docker.com/2014/10/docker-1-3-signed-images-process-injection-security-options-mac-shared-directories/ # noqa
 # https://github.com/docker/docker/issues/4023
 if sys.platform == 'darwin':
     HOME = os.getenv("HOME")
