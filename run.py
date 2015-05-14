@@ -20,6 +20,7 @@ if sys.platform == 'darwin':
         exit(1)
     SRPMS_MOUNT_ROOT = home + SRPMS_MOUNT_ROOT
 
+
 def make_mount_dir():
     srpm_mount_dir = os.path.join(SRPMS_MOUNT_ROOT, str(uuid.uuid4()))
     try:
@@ -28,10 +29,12 @@ def make_mount_dir():
         pass
     return srpm_mount_dir
 
+
 def copy_srpms(srpm_mount_dir, srpms):
     for srpm in srpms:
         srpm_name = os.path.basename(srpm)
         shutil.copyfile(srpm, os.path.join(srpm_mount_dir, srpm_name))
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -68,6 +71,7 @@ def main():
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
     print "Launching docker with args %s" % docker_args
     subprocess.call(docker_args)
+
 
 if __name__ == "__main__":
     main()
