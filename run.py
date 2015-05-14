@@ -16,7 +16,8 @@ SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 if sys.platform == 'darwin':
     home = os.getenv("HOME")
     if not home.startswith("/Users"):
-        print >>sys.stderr, "On OS X $HOME needs to be within /Users for mounting to work"
+        print >>sys.stderr, \
+            "On OS X $HOME needs to be within /Users for mounting to work"
         exit(1)
     SRPMS_MOUNT_ROOT = home + SRPMS_MOUNT_ROOT
 
@@ -38,13 +39,16 @@ def copy_srpms(srpm_mount_dir, srpms):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--branch', help='XenServer branch name (default trunk)',
+    parser.add_argument('-b', '--branch',
+                        help='XenServer branch name (default trunk)',
                         default='trunk')
     parser.add_argument('-s', '--srpm', action='append',
                         help='SRPMs for which dependencies will be installed')
-    parser.add_argument('-d', '--dir', action='append', help='Local dir to mount in the '
+    parser.add_argument('-d', '--dir', action='append',
+                        help='Local dir to mount in the '
                         'image. Will be mounted at /external/<dirname>')
-    parser.add_argument('--rm', action='store_true', help='Destroy the container on exit')
+    parser.add_argument('--rm', action='store_true',
+                        help='Destroy the container on exit')
 
     args = parser.parse_args(sys.argv[1:])
     docker_args = [
