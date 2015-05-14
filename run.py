@@ -57,11 +57,12 @@ def main():
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
     if args.dir:
         for localdir in args.dir:
-            dirname = os.path.basename(localdir)
             if not os.path.isdir(localdir):
                 print "Local directory argument is not a directory!"
                 sys.exit(1)
-            docker_args += ["-v", "%s:/external/%s" % (localdir, dirname)]
+            ext_path = os.path.abspath(localdir)
+            int_path = os.path.basename(ext_path)
+            docker_args += ["-v", "%s:/external/%s" % (ext_path, int_path)]
 
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
