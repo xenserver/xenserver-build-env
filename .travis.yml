@@ -1,0 +1,8 @@
+language: python
+virtualenv:
+  system_site_packages: true
+before_install:
+  - sudo apt-get -q -y install pep8 pylint
+script:
+  - pep8 --show-source --show-pep8 run.py
+  - pylint run.py
