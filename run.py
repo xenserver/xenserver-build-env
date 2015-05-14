@@ -21,7 +21,7 @@ SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 if sys.platform == 'darwin':
     home = os.getenv("HOME")
     if not home.startswith("/Users"):
-        print >>sys.stderr, \
+        print >> sys.stderr, \
             "On OS X $HOME needs to be within /Users for mounting to work"
         exit(1)
     SRPMS_MOUNT_ROOT = home + SRPMS_MOUNT_ROOT
