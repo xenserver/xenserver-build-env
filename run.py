@@ -19,12 +19,12 @@ SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 # http://blog.docker.com/2014/10/docker-1-3-signed-images-process-injection-security-options-mac-shared-directories/
 # https://github.com/docker/docker/issues/4023
 if sys.platform == 'darwin':
-    home = os.getenv("HOME")
-    if not home.startswith("/Users"):
+    HOME = os.getenv("HOME")
+    if not HOME.startswith("/Users"):
         print >> sys.stderr, \
             "On OS X $HOME needs to be within /Users for mounting to work"
         exit(1)
-    SRPMS_MOUNT_ROOT = home + SRPMS_MOUNT_ROOT
+    SRPMS_MOUNT_ROOT = HOME + SRPMS_MOUNT_ROOT
 
 
 def make_mount_dir():
