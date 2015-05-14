@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+"""
+Thin wrapper around "docker run" which simplifies the creation of a build
+environment for XenServer packages.
+"""
+
 import argparse
 import os
 import os.path
@@ -23,6 +28,9 @@ if sys.platform == 'darwin':
 
 
 def make_mount_dir():
+    """
+    Make a randomly-named directory under SRPMS_MOUNT_ROOT.
+    """
     srpm_mount_dir = os.path.join(SRPMS_MOUNT_ROOT, str(uuid.uuid4()))
     try:
         os.makedirs(srpm_mount_dir)
@@ -32,12 +40,18 @@ def make_mount_dir():
 
 
 def copy_srpms(srpm_mount_dir, srpms):
+    """
+    Copy each SRPM into the mount directory.
+    """
     for srpm in srpms:
         srpm_name = os.path.basename(srpm)
         shutil.copyfile(srpm, os.path.join(srpm_mount_dir, srpm_name))
 
 
 def main():
+    """
+    Main entry point.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
                         help='XenServer branch name (default trunk)',
