@@ -57,6 +57,9 @@ def main():
     parser.add_argument('-b', '--branch',
                         help='XenServer branch name (default trunk)',
                         default='trunk')
+    parser.add_argument('-p', '--package', action='append',
+                        help='Packages for which dependencies will '
+                        'be installed')
     parser.add_argument('-s', '--srpm', action='append',
                         help='SRPMs for which dependencies will be installed')
     parser.add_argument('-d', '--dir', action='append',
@@ -72,6 +75,10 @@ def main():
         ]
     if args.rm:
         docker_args += ["--rm=true"]
+    # Add package names to the environment
+    if args.package:
+        packages = ' '.join(args.package)
+        docker_args += ['-e', "PACKAGES=%s" % packages]
     # Copy all the RPMs to the mount directory
     if args.srpm:
         srpm_mount_dir = make_mount_dir()
