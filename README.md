@@ -65,16 +65,18 @@ Find an SRPM you'd like to build, either one you've built yourself, or
 one from the
 [build system](http://coltrane.uk.xensource.com/usr/groups/build/trunk/latest/binary-packages/RPMS/domain0/SRPMS/)
 
-Start a container with a XenServer branch name and at least one SRPM like so:
+Start a container with a XenServer branch name, zero or more package names, and
+zero or more SRPM paths like so:
 
 ```sh
-./run.py -b trunk-ring3 -s xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
+./run.py -b trunk-ring3 -p xapi -s xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
 ```
 
-The container will run yum-builddep against the SRPM, using the yum repository
-for the specified branch, and drop you into an interactive shell. You should
-then have all the dependencies to be able to build the component whose SRPM was
-specified above, e.g.
+The container will run yumdownloader to download the SRPM for each package
+specified with -p, run yum-builddep against these SRPMs as well as the SRPMs
+specified with -s, and drop you into an interactive shell.  You should then have
+all the dependencies to be able to build the components whose SRPM or package
+name was specified above, e.g.
 
 ```sh
 git clone git://github.com/xapi-project/xenopsd

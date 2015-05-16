@@ -1,22 +1,39 @@
 #!/bin/sh
 
-set -eux
+set -ex
 
 cd $HOME
 
-SRPM_MOUNT_DIR="/mnt/docker-SRPMS"
+SRPM_MOUNT_DIR=/mnt/docker-SRPMS/
+LOCAL_SRPM_DIR=$HOME/local-SRPMs
 
 sed -e "s/@XS_BRANCH@/${XS_BRANCH}/" /tmp/Citrix.repo.in > $HOME/Citrix.repo
 sudo mv $HOME/Citrix.repo /etc/yum.repos.d.xs/Citrix.repo
 
-if [ -d $SRPM_MOUNT_DIR ]
-then
-    SRPMS=`find $SRPM_MOUNT_DIR -name *.src.rpm`
+mkdir -p $LOCAL_SRPM_DIR
 
-    for SRPM in $SRPMS
+# Download the source for packages specified in the environment.
+if [ -n "$PACKAGES" ]
+then
+    for PACKAGE in $PACKAGES
     do
-        sudo yum-builddep -y $SRPM
+        yumdownloader --destdir=$LOCAL_SRPM_DIR --source $PACKAGE
     done
 fi
+
+# Copy in any SRPMs from the directory mounted by the host.
+if [ -d $SRPM_MOUNT_DIR ]
+then
+    cp $SRPM_MOUNT_DIR/*.src.rpm $LOCAL_SRPM_DIR
+
+fi
+
+# Install deps for all the SRPMs.
+SRPMS=`find $LOCAL_SRPM_DIR -name *.src.rpm`
+
+for SRPM in $SRPMS
+do
+    sudo yum-builddep -y $SRPM
+done
 
 /bin/sh --login
