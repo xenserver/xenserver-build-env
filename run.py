@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+"""
+Thin wrapper around "docker run" which simplifies the creation of a build
+environment for XenServer packages.
+"""
+
 import argparse
 import os
 import os.path
@@ -10,17 +15,23 @@ import uuid
 
 CONTAINER = "xenserver/xenserver-build-env"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
+# pylint: disable=C0301
 # On OS X with boot2docker there are limits, see:
-# http://blog.docker.com/2014/10/docker-1-3-signed-images-process-injection-security-options-mac-shared-directories/
+# http://blog.docker.com/2014/10/docker-1-3-signed-images-process-injection-security-options-mac-shared-directories/ # noqa
 # https://github.com/docker/docker/issues/4023
 if sys.platform == 'darwin':
-    home = os.getenv("HOME")
-    if not home.startswith("/Users"):
-        print >>sys.stderr, "On OS X $HOME needs to be within /Users for mounting to work"
+    HOME = os.getenv("HOME")
+    if not HOME.startswith("/Users"):
+        print >> sys.stderr, \
+            "On OS X $HOME needs to be within /Users for mounting to work"
         exit(1)
-    SRPMS_MOUNT_ROOT = home + SRPMS_MOUNT_ROOT
+    SRPMS_MOUNT_ROOT = HOME + SRPMS_MOUNT_ROOT
+
 
 def make_mount_dir():
+    """
+    Make a randomly-named directory under SRPMS_MOUNT_ROOT.
+    """
     srpm_mount_dir = os.path.join(SRPMS_MOUNT_ROOT, str(uuid.uuid4()))
     try:
         os.makedirs(srpm_mount_dir)
@@ -28,20 +39,31 @@ def make_mount_dir():
         pass
     return srpm_mount_dir
 
+
 def copy_srpms(srpm_mount_dir, srpms):
+    """
+    Copy each SRPM into the mount directory.
+    """
     for srpm in srpms:
         srpm_name = os.path.basename(srpm)
         shutil.copyfile(srpm, os.path.join(srpm_mount_dir, srpm_name))
 
+
 def main():
+    """
+    Main entry point.
+    """
     parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--branch', help='XenServer branch name (default trunk)',
+    parser.add_argument('-b', '--branch',
+                        help='XenServer branch name (default trunk)',
                         default='trunk')
     parser.add_argument('-s', '--srpm', action='append',
                         help='SRPMs for which dependencies will be installed')
-    parser.add_argument('-d', '--dir', action='append', help='Local dir to mount in the '
+    parser.add_argument('-d', '--dir', action='append',
+                        help='Local dir to mount in the '
                         'image. Will be mounted at /external/<dirname>')
-    parser.add_argument('--rm', action='store_true', help='Destroy the container on exit')
+    parser.add_argument('--rm', action='store_true',
+                        help='Destroy the container on exit')
 
     args = parser.parse_args(sys.argv[1:])
     docker_args = [
@@ -68,6 +90,7 @@ def main():
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
     print "Launching docker with args %s" % docker_args
     subprocess.call(docker_args)
+
 
 if __name__ == "__main__":
     main()
