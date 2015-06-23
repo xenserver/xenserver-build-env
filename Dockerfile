@@ -5,7 +5,6 @@ MAINTAINER                             John Else <john.else@citrix.com>
 ADD     files/yum.conf                 /etc/yum.conf
 
 # Add the Citrix yum repo and GPG key
-# Citrix.repo specifies trunk-ring3 branch - this can be changed.
 RUN     mkdir -p /etc/yum.repos.d.xs
 ADD     files/Citrix.repo.in           /tmp/Citrix.repo.in
 ADD     files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
