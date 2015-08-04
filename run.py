@@ -67,6 +67,8 @@ def main():
                         'image. Will be mounted at /external/<dirname>')
     parser.add_argument('--rm', action='store_true',
                         help='Destroy the container on exit')
+    parser.add_argument('--syslog', action='store_true',
+                        help='Enable syslog to host by mounting in /dev/log')
 
     args = parser.parse_args(sys.argv[1:])
     docker_args = [
@@ -84,6 +86,8 @@ def main():
         srpm_mount_dir = make_mount_dir()
         copy_srpms(srpm_mount_dir, args.srpm)
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
+    if args.syslog:
+        docker_args += ["-v", "/dev/log:/dev/log"]
     if args.dir:
         for localdir in args.dir:
             if not os.path.isdir(localdir):
