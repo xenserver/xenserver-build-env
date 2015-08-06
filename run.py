@@ -82,6 +82,7 @@ def main():
         packages = ' '.join(args.package)
         docker_args += ['-e', "PACKAGES=%s" % packages]
     # Copy all the RPMs to the mount directory
+    srpm_mount_dir = None
     if args.srpm:
         srpm_mount_dir = make_mount_dir()
         copy_srpms(srpm_mount_dir, args.srpm)
@@ -101,6 +102,10 @@ def main():
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
     print "Launching docker with args %s" % docker_args
     subprocess.call(docker_args)
+
+    if srpm_mount_dir:
+        print "Cleaning up temporary mount directory"
+        shutil.rmtree(srpm_mount_dir)
 
 
 if __name__ == "__main__":
