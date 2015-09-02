@@ -36,4 +36,7 @@ do
     sudo yum-builddep -y $SRPM
 done
 
+# double the default stack size
+ulimit -s 16384
+
 /bin/sh --login
