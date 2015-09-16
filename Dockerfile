@@ -2,12 +2,12 @@ FROM                                   xenserver/xenserver-base
 MAINTAINER                             John Else <john.else@citrix.com>
 
 # Update yum.conf
-ADD     files/yum.conf                 /etc/yum.conf
+COPY    files/yum.conf                 /etc/yum.conf
 
 # Add the Citrix yum repo and GPG key
 RUN     mkdir -p /etc/yum.repos.d.xs
-ADD     files/Citrix.repo.in           /tmp/Citrix.repo.in
-ADD     files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
+COPY    files/Citrix.repo.in           /tmp/Citrix.repo.in
+COPY    files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
 
 # Build requirements
 RUN     yum install -y \
@@ -40,4 +40,4 @@ RUN     echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN     usermod -G mock builder
 
 RUN     mkdir -p /usr/local/bin
-ADD     files/init-container.sh        /usr/local/bin/init-container.sh
+COPY    files/init-container.sh        /usr/local/bin/init-container.sh
