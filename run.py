@@ -69,6 +69,8 @@ def main():
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
                         help='Enable syslog to host by mounting in /dev/log')
+    parser.add_argument('-v', '--volume', action='append',
+                        help='Volume mounts passed directly to docker -v')
 
     args = parser.parse_args(sys.argv[1:])
     docker_args = [
@@ -97,6 +99,9 @@ def main():
             ext_path = os.path.abspath(localdir)
             int_path = os.path.basename(ext_path)
             docker_args += ["-v", "%s:/external/%s" % (ext_path, int_path)]
+    if args.volume:
+        for volume in args.volume:
+            docker_args += ["-v", volume]
 
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
