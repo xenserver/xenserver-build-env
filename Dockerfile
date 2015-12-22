@@ -49,3 +49,5 @@ RUN     usermod -G mock builder
 RUN     mkdir -p /usr/local/bin
 COPY    files/init-container.sh        /usr/local/bin/init-container.sh
 
+RUN	yum --enablerepo=xs clean metadata
+
