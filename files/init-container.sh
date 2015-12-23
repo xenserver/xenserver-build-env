@@ -7,8 +7,8 @@ cd $HOME
 SRPM_MOUNT_DIR=/mnt/docker-SRPMS/
 LOCAL_SRPM_DIR=$HOME/local-SRPMs
 
-mv /etc/yum.conf /etc/yum.conf.backup
-mv /etc/yum.conf.xs /etc/yum.conf
+sudo mv /etc/yum.conf /etc/yum.conf.backup
+sudo mv /etc/yum.conf.xs /etc/yum.conf
 
 sed -e "s/@XS_BRANCH@/${XS_BRANCH}/" /tmp/Citrix.repo.in > $HOME/Citrix.repo
 sudo mv $HOME/Citrix.repo /etc/yum.repos.d.xs/Citrix.repo
