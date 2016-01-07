@@ -6,81 +6,33 @@ useful tools) and then install all of the build-dependencies of the given
 pacakge. You will then be in a chroot from which you can clone and build the
 source.
 
+By default, the container references a yum repository that comes from the
+nightly snapshot uploads to xenserver.org.
+
 ## Configuration
-You'll need to install docker.
+You'll need to install docker. Follow the instructions for your platform on
+https://www.docker.com/
 
-### OS X
+## Building packages
 
-First install [Homebrew](http://brew.sh/) and [virtualbox](http://www.virtualbox.org); then
-```
-brew install docker boot2docker
-```
-Initialise boot2docker:
-```
-boot2docker init
-boot2docker up
-```
-Make sure you export the environment variables it gives you. Test that docker
-is working by
-```
-docker info
-```
-
-### Linux
-
-For most distros this is packaged as `docker.io`.
-
-If you'd like to run docker with a non-root account you can add your user to
-the docker group:
+Install the dependencies of the package using yum:
 
 ```sh
-usermod -G docker <username>
-newgrp docker   # if you don't want to have to re-login
-```
-For the yum repos to resolve properly, you'll need to add some DNS servers to
-your docker config.
-
-If you require packages which depend on systemd, you'll also have to work around
-the fact that systemd won't install on older versions of AUFS. One option is to
-switch to the devicemapper storage driver.
-
-Add the following to your docker config:
-
-```sh
-DOCKER_OPTS="--dns 10.80.16.125 --dns 10.80.16.126 -s devicemapper"
+yum-builddep xapi
 ```
 
-**Beware:** switching to the devicemapper driver will mean you lose access to the
-images you had available previously. Also, it's quite a lot slower than the
-default AUFS driver.
-
-For more info, see:
-
-* https://bugs.centos.org/view.php?id=7480
-* https://github.com/docker/docker/issues/6980
-
-## Usage
-
-Find an SRPM you'd like to build, either one you've built yourself, or
-one from the
-[build system](http://coltrane.uk.xensource.com/usr/groups/build/trunk/latest/binary-packages/RPMS/domain0/SRPMS/)
-
-Start a container with a XenServer branch name, zero or more package names, and
-zero or more SRPM paths like so:
+then either download the SRPM using yumdownloader:
 
 ```sh
-./run.py -b trunk-ring3 -p xapi -s xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
+yumdownloader --source xapi
+rpmbuild --rebuild xapi*
 ```
 
-The container will run yumdownloader to download the SRPM for each package
-specified with -p, run yum-builddep against these SRPMs as well as the SRPMs
-specified with -s, and drop you into an interactive shell.  You should then have
-all the dependencies to be able to build the components whose SRPM or package
-name was specified above, e.g.
+or clone the source from github or xenbits:
 
 ```sh
-git clone git://github.com/xapi-project/xenopsd
-cd xenopsd
+git clone git://github.com/xapi-project/xen-api
+cd xen-api
 ./configure
 make
 ```
@@ -112,6 +64,6 @@ wget -qO- https://get.docker.com/ | sh
 
 Then the following format is available to set the UID/GID:
 
-```
+```sh
 -u, --user=                Username or UID (format: <name|uid>[:<group|gid>])
 ```
