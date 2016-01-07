@@ -8,3 +8,4 @@ install:
 script:
   - pep8 --ignore=E123,E501 --show-source --show-pep8 run.py
   - pylint run.py
+  - ./test/travis-test.sh
