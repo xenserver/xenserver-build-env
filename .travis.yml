@@ -1,5 +1,7 @@
 language: python
-sudo: false
+sudo: required
+services:
+  - docker
 install:
   - pip install pep8
   - pip install pylint
