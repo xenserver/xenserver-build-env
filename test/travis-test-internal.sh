@@ -2,12 +2,14 @@
 
 set -eux
 
-ulimit -s 16384
+PACKAGE=$1
 
-PACKAGE=ocaml-xcp-idl
+while [ ! -f $HOME/.setup-complete ]
+do
+    sleep 10
+done
 
-yum-builddep -y $PACKAGE
+cd $HOME
 
 yumdownloader --source $PACKAGE
-yum-builddep -y $PACKAGE*.src.rpm
 rpmbuild --rebuild $PACKAGE*.src.rpm
