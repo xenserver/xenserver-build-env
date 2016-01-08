@@ -65,6 +65,8 @@ def main():
     parser.add_argument('-d', '--dir', action='append',
                         help='Local dir to mount in the '
                         'image. Will be mounted at /external/<dirname>')
+    parser.add_argument('--detach', action='store_true',
+                        help='Detach from the container')
     parser.add_argument('--rm', action='store_true',
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
@@ -73,11 +75,18 @@ def main():
                         help='Volume mounts passed directly to docker -v')
 
     args = parser.parse_args(sys.argv[1:])
-    docker_args = ["docker", "run", "-i", "-t", "-u", "builder"]
+    docker_args = ["docker", "run", "-t", "-u", "builder"]
+    if args.detach:
+        if args.rm:
+            print >> sys.stderr, "--rm not compatible with --detach"
+            sys.exit(1)
+        docker_args += ["-d"]
+    else:
+        docker_args += ["-i"]
+        if args.rm:
+            docker_args += ["--rm=true"]
     if args.branch:
         docker_args += ["-e", "XS_BRANCH=%s" % args.branch]
-    if args.rm:
-        docker_args += ["--rm=true"]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)
