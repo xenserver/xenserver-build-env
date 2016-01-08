@@ -55,8 +55,8 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XenServer branch name (default trunk)',
-                        default='trunk')
+                        help='XenServer branch name. Leave unset unless you'
+                             'plan to build from the internal Citrix repos')
     parser.add_argument('-p', '--package', action='append',
                         help='Packages for which dependencies will '
                         'be installed')
@@ -73,10 +73,9 @@ def main():
                         help='Volume mounts passed directly to docker -v')
 
     args = parser.parse_args(sys.argv[1:])
-    docker_args = [
-        "docker", "run", "-e", "XS_BRANCH=%s" % args.branch,
-        "-i", "-t", "-u", "builder"
-        ]
+    docker_args = ["docker", "run", "-i", "-t", "-u", "builder"]
+    if args.branch:
+        docker_args += ["-e", "XS_BRANCH=%s" % args.branch]
     if args.rm:
         docker_args += ["--rm=true"]
     # Add package names to the environment
