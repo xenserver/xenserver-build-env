@@ -45,4 +45,6 @@ done
 # double the default stack size
 ulimit -s 16384
 
+touch $HOME/.setup-complete
+
 /bin/sh --login
