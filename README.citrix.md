@@ -8,7 +8,7 @@ Start a container with a XenServer branch name, zero or more package names, and
 zero or more SRPM paths like so:
 
 ```sh
-./run.py -b trunk-ring3 -p xapi -s xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
+./run.py -b trunk-ring3 -p xenopsd -s xenopsd-0.10.1-1+s0+0.10.1+10+gf2c98e0.el7.centos.src.rpm
 ```
 
 The container will run yumdownloader to download the SRPM for each package
