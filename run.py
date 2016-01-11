@@ -55,8 +55,8 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XenServer branch name (default trunk)',
-                        default='trunk')
+                        help='XenServer branch name. Leave unset unless you'
+                             'plan to build from the internal Citrix repos')
     parser.add_argument('-p', '--package', action='append',
                         help='Packages for which dependencies will '
                         'be installed')
@@ -65,6 +65,8 @@ def main():
     parser.add_argument('-d', '--dir', action='append',
                         help='Local dir to mount in the '
                         'image. Will be mounted at /external/<dirname>')
+    parser.add_argument('--detach', action='store_true',
+                        help='Detach from the container')
     parser.add_argument('--rm', action='store_true',
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
@@ -73,12 +75,18 @@ def main():
                         help='Volume mounts passed directly to docker -v')
 
     args = parser.parse_args(sys.argv[1:])
-    docker_args = [
-        "docker", "run", "-e", "XS_BRANCH=%s" % args.branch,
-        "-i", "-t", "-u", "builder"
-        ]
-    if args.rm:
-        docker_args += ["--rm=true"]
+    docker_args = ["docker", "run", "-t", "-u", "builder"]
+    if args.detach:
+        if args.rm:
+            print >> sys.stderr, "--rm not compatible with --detach"
+            sys.exit(1)
+        docker_args += ["-d"]
+    else:
+        docker_args += ["-i"]
+        if args.rm:
+            docker_args += ["--rm=true"]
+    if args.branch:
+        docker_args += ["-e", "XS_BRANCH=%s" % args.branch]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)
@@ -105,7 +113,7 @@ def main():
 
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
-    print "Launching docker with args %s" % docker_args
+    print >> sys.stderr, "Launching docker with args %s" % docker_args
     subprocess.call(docker_args)
 
     if srpm_mount_dir:
