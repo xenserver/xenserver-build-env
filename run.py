@@ -55,7 +55,7 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XenServer branch name. Leave unset unless you'
+                        help='XenServer branch name. Leave unset unless you '
                              'plan to build from the internal Citrix repos')
     parser.add_argument('-p', '--package', action='append',
                         help='Packages for which dependencies will '
@@ -65,14 +65,14 @@ def main():
     parser.add_argument('-d', '--dir', action='append',
                         help='Local dir to mount in the '
                         'image. Will be mounted at /external/<dirname>')
+    parser.add_argument('-v', '--volume', action='append',
+                        help='Volume mounts passed directly to docker -v')
     parser.add_argument('--detach', action='store_true',
                         help='Detach from the container')
     parser.add_argument('--rm', action='store_true',
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
                         help='Enable syslog to host by mounting in /dev/log')
-    parser.add_argument('-v', '--volume', action='append',
-                        help='Volume mounts passed directly to docker -v')
 
     args = parser.parse_args(sys.argv[1:])
     docker_args = ["docker", "run", "-t", "-u", "builder"]
