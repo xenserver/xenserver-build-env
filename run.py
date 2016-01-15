@@ -55,7 +55,7 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XenServer branch name. Leave unset unless you'
+                        help='XenServer branch name. Leave unset unless you '
                              'plan to build from the internal Citrix repos')
     parser.add_argument('-p', '--package', action='append',
                         help='Packages for which dependencies will '
