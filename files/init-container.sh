@@ -47,4 +47,9 @@ ulimit -s 16384
 
 touch $HOME/.setup-complete
 
-/bin/sh --login
+if [ ! -z "$COMMAND" ]
+then
+    $COMMAND
+else
+    /bin/sh --login
+fi

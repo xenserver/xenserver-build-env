@@ -73,6 +73,8 @@ def main():
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
                         help='Enable syslog to host by mounting in /dev/log')
+    parser.add_argument('command', nargs=argparse.REMAINDER,
+                        help='Command to run inside the prepared container')
 
     args = parser.parse_args(sys.argv[1:])
     docker_args = ["docker", "run", "-t", "-u", "builder"]
@@ -87,6 +89,8 @@ def main():
             docker_args += ["--rm=true"]
     if args.branch:
         docker_args += ["-e", "XS_BRANCH=%s" % args.branch]
+    if args.command != []:
+        docker_args += ["-e", "COMMAND=%s" % ' '.join(args.command)]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)
