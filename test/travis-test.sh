@@ -6,11 +6,7 @@ set -eux
 
 PACKAGE=ocaml-xcp-idl
 
-CONTAINER=`./run.py --detach \
+./run.py --rm \
     -v $PWD/test/travis-test-internal.sh:/tmp/travis-test-internal.sh \
-    -p $PACKAGE`
-
-docker exec -t $CONTAINER /tmp/travis-test-internal.sh $PACKAGE
-
-docker stop $CONTAINER
-docker rm $CONTAINER
+    -p $PACKAGE \
+    /tmp/travis-test-internal.sh $PACKAGE

@@ -67,26 +67,21 @@ def main():
                         'image. Will be mounted at /external/<dirname>')
     parser.add_argument('-v', '--volume', action='append',
                         help='Volume mounts passed directly to docker -v')
-    parser.add_argument('--detach', action='store_true',
-                        help='Detach from the container')
     parser.add_argument('--rm', action='store_true',
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
                         help='Enable syslog to host by mounting in /dev/log')
+    parser.add_argument('command', nargs=argparse.REMAINDER,
+                        help='Command to run inside the prepared container')
 
     args = parser.parse_args(sys.argv[1:])
-    docker_args = ["docker", "run", "-t", "-u", "builder"]
-    if args.detach:
-        if args.rm:
-            print >> sys.stderr, "--rm not compatible with --detach"
-            sys.exit(1)
-        docker_args += ["-d"]
-    else:
-        docker_args += ["-i"]
-        if args.rm:
-            docker_args += ["--rm=true"]
+    docker_args = ["docker", "run", "-i", "-t", "-u", "builder"]
+    if args.rm:
+        docker_args += ["--rm=true"]
     if args.branch:
         docker_args += ["-e", "XS_BRANCH=%s" % args.branch]
+    if args.command != []:
+        docker_args += ["-e", "COMMAND=%s" % ' '.join(args.command)]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)
