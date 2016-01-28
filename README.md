@@ -1,4 +1,4 @@
-# Xenserver-build-env
+# xenserver-build-env
 This docker config and collection of supporting scripts allows for creating
 a docker container to work on and build a XenServer package from an SRPM. It
 will build a Docker container with the right build environment (including some
@@ -10,8 +10,23 @@ By default, the container references a yum repository that comes from the
 nightly snapshot uploads to xenserver.org.
 
 ## Configuration
+
 You'll need to install docker. Follow the instructions for your platform on
 https://www.docker.com/
+
+## Building
+
+Either build the docker image yourself:
+
+```
+docker build -t xenserver/xenserver-build-env .
+```
+
+or pull from the Docker Hub:
+
+```
+docker pull xenserver/xenserver-build-env
+```
 
 ## Building packages
 
@@ -53,14 +68,7 @@ docker run -i -t -v /work/code:/mnt/repos -u $(id -u) <IMAGE> /bin/bash
 
 The `-u` flag uses the right UID inside so that changes made in the container
 are with the same UID as outside the container. Docker >=1.6 supports group IDs
-as well and both the group and user can be referenced by name. To get the
-latest version see the installation instructions on http://docker.io.
-
-On Ubuntu >=14.04, the following command will get the latest version of docker:
-
-```sh
-wget -qO- https://get.docker.com/ | sh
-```
+as well and both the group and user can be referenced by name.
 
 Then the following format is available to set the UID/GID:
 
