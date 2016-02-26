@@ -26,28 +26,28 @@ reposdir=/etc/yum.repos.d.xs
 [epel]
 name = epel
 enabled = 1
-baseurl = http://www.uk.xensource.com/linux/distros/CentOS/7.1.1503/EPEL-20150910/x86_64/
+baseurl = https://repo.citrite.net/fedora/epel/7/x86_64/
 exclude = ocaml*
 gpgcheck = 0
 
 [base]
 name = base
 enabled = 1
-baseurl = http://www.uk.xensource.com/linux/distros/CentOS/7.1.1503/os/x86_64/
+baseurl = https://repo.citrite.net/centos/7.2.1511/os/x86_64/
 exclude = ocaml*
 gpgcheck = 0
 
 [updates]
 name = updates
 enabled = 1
-baseurl = http://www.uk.xensource.com/linux/distros/CentOS/7.1.1503/updates-20150910/x86_64/
+baseurl = https://repo.citrite.net/centos/7.2.1511/os/x86_64/
 exclude = ocaml*
 gpgcheck = 0
 
 [extras]
 name = extras
 enabled = 1
-baseurl = http://www.uk.xensource.com/linux/distros/CentOS/7.1.1503/extras-20150910/x86_64/
+baseurl = https://repo.citrite.net/centos/7.2.1511/os/x86_64/
 exclude = ocaml*
 gpgcheck = 0
 
