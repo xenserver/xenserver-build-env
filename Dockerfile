@@ -1,4 +1,4 @@
-FROM                                   centos:7.1.1503
+FROM                                   centos:7.2.1511
 MAINTAINER                             John Else <john.else@citrix.com>
 
 # Update yum.conf - not default!
