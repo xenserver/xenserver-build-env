@@ -109,11 +109,13 @@ def main():
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
     print >> sys.stderr, "Launching docker with args %s" % docker_args
-    subprocess.call(docker_args)
+    return_code = subprocess.call(docker_args)
 
     if srpm_mount_dir:
         print "Cleaning up temporary mount directory"
         shutil.rmtree(srpm_mount_dir)
+
+    sys.exit(return_code)
 
 
 if __name__ == "__main__":
