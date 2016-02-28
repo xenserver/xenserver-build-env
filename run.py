@@ -24,7 +24,7 @@ if sys.platform == 'darwin':
     if not HOME.startswith("/Users"):
         print >> sys.stderr, \
             "On OS X $HOME needs to be within /Users for mounting to work"
-        exit(1)
+        sys.exit(1)
     SRPMS_MOUNT_ROOT = HOME + SRPMS_MOUNT_ROOT
 
 
