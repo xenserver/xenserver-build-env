@@ -65,6 +65,9 @@ def main():
     parser.add_argument('-d', '--dir', action='append',
                         help='Local dir to mount in the '
                         'image. Will be mounted at /external/<dirname>')
+    parser.add_argument('-e', '--env', action='append',
+                        help='Environment variables passed directly to '
+                             'docker -e')
     parser.add_argument('-v', '--volume', action='append',
                         help='Volume mounts passed directly to docker -v')
     parser.add_argument('--rm', action='store_true',
@@ -105,6 +108,9 @@ def main():
     if args.volume:
         for volume in args.volume:
             docker_args += ["-v", volume]
+    if args.env:
+        for env in args.env:
+            docker_args += ["-e", env]
 
     # exec "docker run"
     docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
