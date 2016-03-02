@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script is intended to called from inside a git repo by travis.
 # It will download travis-build-repo-internal.sh and run.py, launch a
@@ -39,4 +39,4 @@ python run.py -p $REPO_PACKAGE_NAME --rm \
     -e "REPO_BUILD_CMD=$REPO_BUILD_CMD" \
     -e "REPO_TEST_CMD=$REPO_TEST_CMD" \
     -v $PWD:$REPO_PATH \
-    sh $REPO_PATH/travis-build-repo-internal.sh $REPO_PATH
+    bash $REPO_PATH/travis-build-repo-internal.sh $REPO_PATH
