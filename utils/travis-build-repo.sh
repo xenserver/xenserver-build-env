@@ -30,9 +30,9 @@ wget https://raw.githubusercontent.com/${BUILDENV_USER}/xenserver-build-env/${BU
 REPO=`basename $PWD`
 REPO_PATH=/repos/$REPO
 
-REPO_CONFIGURE_CMD=${REPO_CONFIGURE_CMD:-./configure}
-REPO_BUILD_CMD=${REPO_BUILD_CMD:-make}
-REPO_TEST_CMD=${REPO_TEST_CMD:-make test}
+REPO_CONFIGURE_CMD=${REPO_CONFIGURE_CMD-./configure}
+REPO_BUILD_CMD=${REPO_BUILD_CMD-make}
+REPO_TEST_CMD=${REPO_TEST_CMD-make test}
 
 python run.py -p $REPO_PACKAGE_NAME --rm \
     -e "REPO_CONFIGURE_CMD=$REPO_CONFIGURE_CMD" \
