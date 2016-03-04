@@ -1,0 +1,7 @@
+People who have contributed to xenserver-build-env:
+
+David Scott <dave.scott@citrix.com>
+John Else <john.else@citrix.com>
+Jon Ludlam <jonathan.ludlam@citrix.com>
+Rob Hoes <rob.hoes@citrix.com>
+Si Beaumont <simon.beaumont@citrix.com>
