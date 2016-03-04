@@ -24,8 +24,13 @@ set -eux
 BUILDENV_USER=${BUILDENV_USER:-xenserver}
 BUILDENV_BRANCH=${BUILDENV_BRANCH:-master}
 
-wget https://raw.githubusercontent.com/${BUILDENV_USER}/xenserver-build-env/${BUILDENV_BRANCH}/run.py
-wget https://raw.githubusercontent.com/${BUILDENV_USER}/xenserver-build-env/${BUILDENV_BRANCH}/utils/travis-build-repo-internal.sh
+BASE_URL=https://raw.githubusercontent.com/${BUILDENV_USER}/xenserver-build-env/${BUILDENV_BRANCH}
+
+RUN_SCRIPT=run.py
+BUILD_SCRIPT=travis-build-repo-internal.sh
+
+[ -f ${RUN_SCRIPT} ] || wget ${BASE_URL}/${RUN_SCRIPT}
+[ -f ${BUILD_SCRIPT} ] || wget ${BASE_URL}/utils/${BUILD_SCRIPT}
 
 REPO=`basename $PWD`
 REPO_PATH=/repos/$REPO

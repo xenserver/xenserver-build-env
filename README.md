@@ -1,4 +1,7 @@
 # xenserver-build-env
+
+[![Build status](https://travis-ci.org/xenserver/xenserver-build-env.png?branch=master)](https://travis-ci.org/xenserver/xenserver-build-env)
+
 This docker config and collection of supporting scripts allows for creating
 a docker container to work on and build a XenServer package from an SRPM. It
 will build a Docker container with the right build environment (including some
