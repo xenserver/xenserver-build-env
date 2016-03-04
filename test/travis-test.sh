@@ -4,9 +4,21 @@ set -eux
 
 ./build.sh
 
-PACKAGE=ocaml-xcp-idl
+PACKAGE=xcp-networkd
+REPO=xcp-networkd
 
-./run.py --rm \
-    -v $PWD/test/travis-test-internal.sh:/tmp/travis-test-internal.sh \
-    -p $PACKAGE \
-    /tmp/travis-test-internal.sh $PACKAGE
+git clone git://github.com/xapi-project/$REPO /tmp/$REPO
+
+cp \
+    run.py \
+    utils/travis-build-repo.sh \
+    utils/travis-build-repo-internal.sh \
+    /tmp/$REPO
+
+cd /tmp/$REPO
+
+REPO_PACKAGE_NAME=$PACKAGE \
+    REPO_CONFIGURE_CMD=true \
+    REPO_BUILD_CMD=make \
+    REPO_TEST_CMD='make test' \
+    bash travis-build-repo.sh
