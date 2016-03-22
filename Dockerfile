@@ -10,7 +10,7 @@ COPY    files/Citrix.repo.in           /tmp/Citrix.repo.in
 COPY    files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
 
 # Add the publicly available repo
-COPY    files/xs.repo /etc/yum.repos.d/xs.repo
+COPY    files/xs.repo.in /tmp/xs.repo.in
 
 # Build requirements
 RUN     yum install -y \
@@ -54,5 +54,3 @@ RUN     yum install -y \
 
 RUN     mkdir -p /usr/local/bin
 COPY    files/init-container.sh        /usr/local/bin/init-container.sh
-
-RUN     yum --enablerepo=xs clean metadata
