@@ -19,6 +19,7 @@ else
         print re.escape(base64.b64decode('aHR0cDovL3hzLXl1bS1yZXBvcy5zMy13ZWJzaXRlLXVzLWVhc3QtMS5hbWF6b25hd3MuY29tLzQ0OWU1MmE0LTI3MWEtNDgzYS1iYWE3LTI0YmYzNjI4NjZmNy9kb21haW4w'))"`
     sed -e "s/@XS_REPO@/${XS_REPO}/" /tmp/xs.repo.in > $HOME/xs.repo
     sudo mv $HOME/xs.repo /etc/yum.repos.d/xs.repo
+    sudo yum --enablerepo=xs clean metadata
 fi
 
 mkdir -p $LOCAL_SRPM_DIR
