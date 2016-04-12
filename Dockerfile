@@ -14,6 +14,8 @@ COPY    files/xs.repo.in /tmp/xs.repo.in
 
 # Build requirements
 RUN     yum install -y \
+            gcc \
+            gcc-c++ \
             git \
             make \
             mercurial \
