@@ -18,6 +18,8 @@
 # - The build command to run in the repo.
 # $REPO_TEST_CMD (optional - default 'make test')
 # - The test command to run in the repo.
+# $REPO_DOC_CMD (optional - no default (allow to be unset))
+# - The doc command to run in the repo.
 
 set -eux
 
@@ -38,10 +40,12 @@ REPO_PATH=/repos/$REPO
 REPO_CONFIGURE_CMD=${REPO_CONFIGURE_CMD-./configure}
 REPO_BUILD_CMD=${REPO_BUILD_CMD-make}
 REPO_TEST_CMD=${REPO_TEST_CMD-make test}
+REPO_DOC_CMD=${REPO_DOC_CMD-}
 
 python run.py -p $REPO_PACKAGE_NAME --rm \
     -e "REPO_CONFIGURE_CMD=$REPO_CONFIGURE_CMD" \
     -e "REPO_BUILD_CMD=$REPO_BUILD_CMD" \
     -e "REPO_TEST_CMD=$REPO_TEST_CMD" \
+    -e "REPO_DOC_CMD=$REPO_DOC_CMD" \
     -v $PWD:$REPO_PATH \
     bash $REPO_PATH/travis-build-repo-internal.sh $REPO_PATH
