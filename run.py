@@ -74,6 +74,7 @@ def main():
                         help='Destroy the container on exit')
     parser.add_argument('--syslog', action='store_true',
                         help='Enable syslog to host by mounting in /dev/log')
+    parser.add_argument('--name', help='Assign a name to the container')
     parser.add_argument('command', nargs=argparse.REMAINDER,
                         help='Command to run inside the prepared container')
 
@@ -97,6 +98,8 @@ def main():
         docker_args += ["-v", "%s:/mnt/docker-SRPMS" % srpm_mount_dir]
     if args.syslog:
         docker_args += ["-v", "/dev/log:/dev/log"]
+    if args.name:
+        docker_args += ["--name", args.name]
     if args.dir:
         for localdir in args.dir:
             if not os.path.isdir(localdir):
