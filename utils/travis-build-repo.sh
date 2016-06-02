@@ -6,6 +6,9 @@
 # run the script travis-build-repo-internal.sh inside the container.
 #
 # travis-build-repo.sh makes use of the following environment variables:
+# $CONTAINER_NAME (option - default 'build-env')
+# - The name to use for the container. Useful if you want to copy build
+#   artifacts out of the container once the build is finished.
 # $BUILDENV_USER (optional - default 'xenserver')
 # - The github user from which to pull the required scripts.
 # $BUILDENV_BRANCH (optional - default 'master')
