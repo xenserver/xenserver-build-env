@@ -1,6 +1,8 @@
 # xenserver-build-env
 
-[![Build status](https://travis-ci.org/xenserver/xenserver-build-env.png?branch=master)](https://travis-ci.org/xenserver/xenserver-build-env)
+[![Build status][travis-badge]][travis-url]
+[![Docker pulls][docker-pulls-badge]][docker-url]
+
 
 This docker config and collection of supporting scripts allows for creating
 a docker container to work on and build a XenServer package from an SRPM. It
@@ -78,3 +80,8 @@ Then the following format is available to set the UID/GID:
 ```sh
 -u, --user=                Username or UID (format: <name|uid>[:<group|gid>])
 ```
+
+[travis-badge]: https://travis-ci.org/xenserver/xenserver-build-env.png?branch=master
+[travis-url]: https://travis-ci.org/xenserver/xenserver-build-env
+[docker-pulls-badge]: https://img.shields.io/docker/pulls/xenserver/xenserver-build-env.svg
+[docker-url]: https://hub.docker.com/r/xenserver/xenserver-build-env/
