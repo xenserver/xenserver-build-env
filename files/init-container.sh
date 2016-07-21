@@ -7,6 +7,15 @@ cd $HOME
 SRPM_MOUNT_DIR=/mnt/docker-SRPMS/
 LOCAL_SRPM_DIR=$HOME/local-SRPMs
 
+case $GIT_BRANCH in
+	trunk-pvs-direct)
+		XS_REPO_KEY=aHR0cDovL3hzLXl1bS1yZXBvcy5zMy13ZWJzaXRlLXVzLWVhc3QtMS5hbWF6b25hd3MuY29tLzA4ZWZiM2VlLTNjN2QtMTFlNi1iOTVlLTMzZGU5MzkyZGRmMi9kb21haW4w
+		;;
+	*)
+		XS_REPO_KEY=aHR0cDovL3hzLXl1bS1yZXBvcy5zMy13ZWJzaXRlLXVzLWVhc3QtMS5hbWF6b25hd3MuY29tLzQ0OWU1MmE0LTI3MWEtNDgzYS1iYWE3LTI0YmYzNjI4NjZmNy9kb21haW4w
+		;;
+esac
+
 if [ ! -z $XS_BRANCH ]
 then
     sudo mv /etc/yum.conf /etc/yum.conf.backup
@@ -16,7 +25,7 @@ then
     sudo mv $HOME/Citrix.repo /etc/yum.repos.d.xs/Citrix.repo
 else
     XS_REPO=`python -c "import base64; import re; \
-        print re.escape(base64.b64decode('aHR0cDovL3hzLXl1bS1yZXBvcy5zMy13ZWJzaXRlLXVzLWVhc3QtMS5hbWF6b25hd3MuY29tLzQ0OWU1MmE0LTI3MWEtNDgzYS1iYWE3LTI0YmYzNjI4NjZmNy9kb21haW4w'))"`
+        print re.escape(base64.b64decode('${XS_REPO_KEY}'))"`
     sed -e "s/@XS_REPO@/${XS_REPO}/" /tmp/xs.repo.in > $HOME/xs.repo
     sudo mv $HOME/xs.repo /etc/yum.repos.d/xs.repo
     sudo yum --enablerepo=xs clean metadata

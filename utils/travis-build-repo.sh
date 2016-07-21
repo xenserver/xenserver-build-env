@@ -51,5 +51,6 @@ python run.py -p $REPO_PACKAGE_NAME --name ${CONTAINER_NAME} \
     -e "REPO_BUILD_CMD=$REPO_BUILD_CMD" \
     -e "REPO_TEST_CMD=$REPO_TEST_CMD" \
     -e "REPO_DOC_CMD=$REPO_DOC_CMD" \
+    -e "GIT_BRANCH=$TRAVIS_BRANCH" \
     -v $PWD:$REPO_PATH \
     bash $REPO_PATH/travis-build-repo-internal.sh $REPO_PATH
