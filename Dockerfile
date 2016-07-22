@@ -1,5 +1,5 @@
 FROM                                   centos:7.2.1511
-MAINTAINER                             John Else <john.else@citrix.com>
+MAINTAINER                             Jon Ludlam <jonathan.ludlam@citrix.com>
 
 # Update yum.conf - not default!
 COPY    files/yum.conf.xs              /etc/yum.conf.xs
