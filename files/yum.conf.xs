@@ -26,7 +26,7 @@ reposdir=/etc/yum.repos.d.xs
 [epel]
 name = epel
 enabled = 1
-baseurl = https://repo.citrite.net/fedora/epel/7/x86_64/
+baseurl = https://repo.citrite.net/ctx-remote-yum-fedora/epel/7/x86_64/
 exclude = ocaml*
 gpgcheck = 0
 
