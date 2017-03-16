@@ -50,9 +50,9 @@ RUN     usermod -G mock builder
 
 # Let's have aspcud
 RUN     yum install -y \
-            http://download.opensuse.org/repositories/home:/ocaml/CentOS_7/x86_64/aspcud-1.9.0-2.1.x86_64.rpm \
-            http://download.opensuse.org/repositories/home:/ocaml/CentOS_7/x86_64/clasp-3.0.1-4.1.x86_64.rpm \
-            http://download.opensuse.org/repositories/home:/ocaml/CentOS_7/x86_64/gringo-4.3.0-10.1.x86_64.rpm
+            http://download.opensuse.org/repositories/home:/ocaml/CentOS_7/x86_64/aspcud-1.9.0-2.2.x86_64.rpm \
+            http://download.opensuse.org/repositories/home:/ocaml/CentOS_7/x86_64/clasp-3.0.1-4.2.x86_64.rpm \
+            http://download.opensuse.org/repositories/home:/ocaml/CentOS_7/x86_64/gringo-4.3.0-10.2.x86_64.rpm
 
 RUN     mkdir -p /usr/local/bin
 COPY    files/init-container.sh        /usr/local/bin/init-container.sh
