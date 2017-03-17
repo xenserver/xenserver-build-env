@@ -12,6 +12,9 @@ COPY    files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
 # Add the publicly available repo
 COPY    files/xs.repo.in /tmp/xs.repo.in
 
+# Fix invalid rpmdb checksum error with overlayfs, see https://github.com/docker/docker/issues/10180
+RUN yum install -y yum-plugin-ovl
+
 # Build requirements
 RUN     yum install -y \
             gcc \
