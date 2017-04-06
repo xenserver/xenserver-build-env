@@ -29,6 +29,7 @@ set -eux
 CONTAINER_NAME=${CONTAINER_NAME:-build-env}
 BUILDENV_USER=${BUILDENV_USER:-xenserver}
 BUILDENV_BRANCH=${BUILDENV_BRANCH:-master}
+GIT_BRANCH=${GIT_BRANCH:-$TRAVIS_BRANCH}
 
 BASE_URL=https://raw.githubusercontent.com/${BUILDENV_USER}/xenserver-build-env/${BUILDENV_BRANCH}
 
@@ -51,6 +52,6 @@ python run.py -p $REPO_PACKAGE_NAME --name ${CONTAINER_NAME} \
     -e "REPO_BUILD_CMD=$REPO_BUILD_CMD" \
     -e "REPO_TEST_CMD=$REPO_TEST_CMD" \
     -e "REPO_DOC_CMD=$REPO_DOC_CMD" \
-    -e "GIT_BRANCH=$TRAVIS_BRANCH" \
+    -e "GIT_BRANCH=$GIT_BRANCH" \
     -v $PWD:$REPO_PATH \
     bash -l $REPO_PATH/travis-build-repo-internal.sh $REPO_PATH
