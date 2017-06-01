@@ -17,6 +17,9 @@ case $GIT_BRANCH in
 	falcon)
 		XS_REPO_KEY=aHR0cDovL3hhcGktcmVwb3MuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9mYTdjMGVhOS05ZDMxLTUwYmItYThkNi04YWUzNjdlZjJmMTQvZG9tYWluMA==
 		;;
+  vgpu-migration)
+    XS_REPO_KEY=aHR0cDovL3hhcGktcmVwb3MuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9mZWE3NTJlNzc5MjUzMTkyYTcxMDIzMmFmNDNlYWJjZC9kb21haW4w
+    ;;
 	*)
 		XS_REPO_KEY=aHR0cDovL3hhcGktcmVwb3MuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS8xMzM3YWI2Yy03N2FiLTljOGMtYTkxZi0zOGZiYThiZWU4ZGQvZG9tYWluMA==
 		;;
