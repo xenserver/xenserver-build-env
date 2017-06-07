@@ -1,5 +1,6 @@
 FROM                                   centos:7.2.1511
-MAINTAINER                             Jon Ludlam <jonathan.ludlam@citrix.com>
+LABEL maintainer.name="Jon Ludlam" \
+      maintainer.email="jonathan.ludlam@citrix.com"
 
 # Update yum.conf - not default!
 COPY    files/yum.conf.xs              /etc/yum.conf.xs
@@ -46,10 +47,10 @@ RUN     yum install -y \
 RUN     sed -i "/gpgkey/a exclude=ocaml*" /etc/yum.repos.d/Cent* /etc/yum.repos.d/epel*
 
 # Set up the builder user
-RUN     useradd builder
-RUN     echo "builder:builder" | chpasswd
-RUN     echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
-RUN     usermod -G mock builder
+RUN     useradd builder \
+        && echo "builder:builder" | chpasswd \
+        && echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers \
+        && usermod -G mock builder
 
 # Let's have aspcud
 RUN     yum install -y \
