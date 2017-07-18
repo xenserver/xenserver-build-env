@@ -17,7 +17,7 @@ case $GIT_BRANCH in
 	falcon)
 		XS_REPO_KEY=aHR0cDovL3hhcGktcmVwb3MuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9mYTdjMGVhOS05ZDMxLTUwYmItYThkNi04YWUzNjdlZjJmMTQvZG9tYWluMA==
 		;;
-	feature-cbt)
+	feature/CBT)
 		XS_REPO_KEY=aHR0cDovL3hhcGktcmVwb3MuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9mZWE3NjJlNy1jYjcwLTRiZTktZWY4Ni00M2FlODlmOTFjZDIvZG9tYWluMA==
 		;;
 	*)
