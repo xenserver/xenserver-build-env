@@ -32,6 +32,7 @@ RUN     yum install -y \
 
 # Niceties
 RUN     yum install -y \
+            bash-completion \
             tig \
             tmux \
             vim \
