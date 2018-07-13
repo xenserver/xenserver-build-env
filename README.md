@@ -33,10 +33,10 @@ Use the `run.py` script. It accepts a variety of parameters allowing for differe
 * or simply start a shell in the build environment, with the appropriate CentOS, EPEL et XCP-ng yum repositories enabled.
 
 ```sh
-usage: run.py [-h] [-b BRANCH] [--build-local BUILD_LOCAL]
-              [--rebuild-srpm REBUILD_SRPM] [--output-dir OUTPUT_DIR]
-              [--no-exit] [-s SRPM] [-d DIR] [-e ENV] [-v VOLUME] [--rm]
-              [--syslog] [--name NAME]
+[samuel2@localhost xcp-ng-build-env (xcp-ng-isation)]$ ./run.py --help
+usage: run.py [-h] [-b BRANCH] [-l BUILD_LOCAL] [-r REBUILD_SRPM]
+              [-o OUTPUT_DIR] [-n] [-p PACKAGE] [-s SRPM] [-d DIR] [-e ENV]
+              [-v VOLUME] [--rm] [--syslog] [--name NAME]
               ...
 
 positional arguments:
@@ -47,21 +47,25 @@ optional arguments:
   -b BRANCH, --branch BRANCH
                         XCP-ng version: 7.5, dev, etc. If not set, will
                         default to dev.
-  --build-local BUILD_LOCAL
+  -l BUILD_LOCAL, --build-local BUILD_LOCAL
                         Install dependencies for the spec file(s) found in the
                         SPECS/ subdirectory of the directory passed as
                         parameter, then build the RPM(s). Built RPMs and SRPMs
                         will be in RPMS/ and SRPMS/ subdirectories. Any
                         preexisting BUILD, BUILDROOT, RPMS or SRPMS
-                        directories will be removed first.
-  --rebuild-srpm REBUILD_SRPM
+                        directories will be removed first. If --output-dir is
+                        set, the RPMS and SRPMS directories will be copied to
+                        it after the build.
+  -r REBUILD_SRPM, --rebuild-srpm REBUILD_SRPM
                         Install dependencies for the SRPM passed as parameter,
                         then build it. Requires the --output-dir parameter to
                         be set.
-  --output-dir OUTPUT_DIR
-                        Output directory for --rebuild-srpm.
-  --no-exit             After executing either an automated build or a custom
+  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
+                        Output directory for --rebuild-srpm and --build-local.
+  -n, --no-exit         After executing either an automated build or a custom
                         command passed as parameter, drop user into a shell
+  -p PACKAGE, --package PACKAGE
+                        Packages for which dependencies will be installed
   -s SRPM, --srpm SRPM  SRPMs for which dependencies will be installed
   -d DIR, --dir DIR     Local dir to mount in the image. Will be mounted at
                         /external/<dirname>
