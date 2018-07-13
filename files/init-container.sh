@@ -3,8 +3,6 @@
 # clean yum cache to avoid download errors
 sudo yum clean all
 
-set -e
-
 cd $HOME
 
 SRPM_MOUNT_DIR=/mnt/docker-SRPMS/
