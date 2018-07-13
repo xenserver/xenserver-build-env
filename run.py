@@ -2,18 +2,17 @@
 
 """
 Thin wrapper around "docker run" which simplifies the creation of a build
-environment for XenServer packages.
+environment for XCP-ng packages.
 """
 
 import argparse
 import os
-import os.path
 import subprocess
 import shutil
 import sys
 import uuid
 
-CONTAINER = "xenserver/xenserver-build-env"
+CONTAINER_PREFIX = "xcp-ng/xcp-ng-build-env"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 
 
@@ -44,8 +43,22 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XenServer branch name. Leave unset unless you '
-                             'plan to build from the internal Citrix repos')
+                        help='XCP-ng version: 7.5, dev, etc. If not set, will default to dev.')
+    parser.add_argument('-l', '--build-local',
+                        help="Install dependencies for the spec file(s) found in the SPECS/ subdirectory " \
+                             "of the directory passed as parameter, then build the RPM(s). " \
+                             "Built RPMs and SRPMs will be in RPMS/ and SRPMS/ subdirectories. " \
+                             "Any preexisting BUILD, BUILDROOT, RPMS or SRPMS directories will be removed first. " \
+                             "If --output-dir is set, the RPMS and SRPMS directories will be copied to it " \
+                             "after the build.")
+    parser.add_argument('-r', '--rebuild-srpm',
+                        help="Install dependencies for the SRPM passed as parameter, then build it. " \
+                             "Requires the --output-dir parameter to be set.")
+    parser.add_argument('-o', '--output-dir',
+                        help="Output directory for --rebuild-srpm and --build-local.")
+    parser.add_argument('-n', '--no-exit', action='store_true',
+                        help='After executing either an automated build or a custom command passed as parameter, ' \
+                             'drop user into a shell')
     parser.add_argument('-p', '--package', action='append',
                         help='Packages for which dependencies will '
                         'be installed')
@@ -71,10 +84,28 @@ def main():
     docker_args = ["docker", "run", "-i", "-t", "-u", "builder"]
     if args.rm:
         docker_args += ["--rm=true"]
-    if args.branch:
-        docker_args += ["-e", "XS_BRANCH=%s" % args.branch]
+    branch = args.branch or 'dev'
+
     if args.command != []:
         docker_args += ["-e", "COMMAND=%s" % ' '.join(args.command)]
+    if args.build_local:
+        docker_args += ["-v", "%s:/home/builder/rpmbuild" % os.path.abspath(args.build_local)]
+        docker_args += ["-e", "BUILD_LOCAL=1"]
+    if args.rebuild_srpm:
+        if not os.path.isfile(args.rebuild_srpm) or not args.rebuild_srpm.endswith(".src.rpm"):
+            parser.error("%s is not a valid source RPM." % args.rebuild_srpm)
+        if not args.output_dir:
+            parser.error("Missing --output-dir parameter, required by --rebuild-srpm.")
+        docker_args += ["-e", "REBUILD_SRPM=%s" % os.path.basename(args.rebuild_srpm)]
+        if args.srpm is None:
+            args.srpm = []
+        args.srpm.append(args.rebuild_srpm)
+    if args.output_dir:
+        if not os.path.isdir(args.output_dir):
+            parser.error("%s is not a valid output directory." % args.output_dir)
+        docker_args += ["-v", "%s:/home/builder/output" % os.path.abspath(args.output_dir)]
+    if args.no_exit:
+        docker_args += ["-e", "NO_EXIT=1"]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)
@@ -105,7 +136,7 @@ def main():
             docker_args += ["-e", env]
 
     # exec "docker run"
-    docker_args += [CONTAINER, "/usr/local/bin/init-container.sh"]
+    docker_args += ["%s-%s" % (CONTAINER_PREFIX, branch), "/usr/local/bin/init-container.sh"]
     print >> sys.stderr, "Launching docker with args %s" % docker_args
     return_code = subprocess.call(docker_args)
 

@@ -1,18 +1,15 @@
-# xenserver-build-env
-
-[![Build status][travis-badge]][travis-url]
-[![Docker pulls][docker-pulls-badge]][docker-url]
-
+# xcp-ng-build-env
 
 This docker config and collection of supporting scripts allows for creating
-a docker container to work on and build a XenServer package from an SRPM. It
-will build a Docker container with the right build environment (including some
-useful tools) and then install all of the build-dependencies of the given
-pacakge. You will then be in a chroot from which you can clone and build the
-source.
-
-By default, the container references a yum repository that comes from the
-nightly snapshot uploads to xenserver.org.
+a docker container to work on and build a XCP-ng package from an SRPM or from
+a directory containing a `SOURCES/` and a `SPECS/` directory along with appropriate
+RPM spec file and software sources.
+It will build a Docker container with the right build environment (including some
+useful tools).
+Depending on the parameters, it will either do everything automatically to build a
+given package, or just install build-dependencies and let you work manually from a shell
+in the container context. Or even just start the container and let you do anything you
+want.
 
 ## Configuration
 
@@ -21,19 +18,88 @@ https://www.docker.com/
 
 ## Building
 
-Either build the docker image yourself:
+You need one docker image per target version of XCP-ng.
 
 ```
-docker build -t xenserver/xenserver-build-env .
+Usage: ./build.sh {version_of_XCP_ng}
+... where {version_of_XCP_ng} is either dev, current (for current stable release), or a 'x.y' version such as 7.5.
 ```
 
-or pull from the Docker Hub:
+## Using the container
 
-```
-docker pull xenserver/xenserver-build-env
+Use the `run.py` script. It accepts a variety of parameters allowing for different uses:
+* rebuild an existing source RPM (with automated installation of the build dependencies)
+* build a package from an already extracted source RPM (sources and spec file), or from a directory that follows the rpmbuild convention (a `SOURCES/` directory and a `SPECS/` directory). Most useful for building packages from XCP-ng's git repositories of RPM sources: https://github.com/xcp-ng-rpms.
+* or simply start a shell in the build environment, with the appropriate CentOS, EPEL et XCP-ng yum repositories enabled.
+
+```sh
+usage: run.py [-h] [-b BRANCH] [--build-local BUILD_LOCAL]
+              [--rebuild-srpm REBUILD_SRPM] [--output-dir OUTPUT_DIR]
+              [--no-exit] [-s SRPM] [-d DIR] [-e ENV] [-v VOLUME] [--rm]
+              [--syslog] [--name NAME]
+              ...
+
+positional arguments:
+  command               Command to run inside the prepared container
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -b BRANCH, --branch BRANCH
+                        XCP-ng version: 7.5, dev, etc. If not set, will
+                        default to dev.
+  --build-local BUILD_LOCAL
+                        Install dependencies for the spec file(s) found in the
+                        SPECS/ subdirectory of the directory passed as
+                        parameter, then build the RPM(s). Built RPMs and SRPMs
+                        will be in RPMS/ and SRPMS/ subdirectories. Any
+                        preexisting BUILD, BUILDROOT, RPMS or SRPMS
+                        directories will be removed first.
+  --rebuild-srpm REBUILD_SRPM
+                        Install dependencies for the SRPM passed as parameter,
+                        then build it. Requires the --output-dir parameter to
+                        be set.
+  --output-dir OUTPUT_DIR
+                        Output directory for --rebuild-srpm.
+  --no-exit             After executing either an automated build or a custom
+                        command passed as parameter, drop user into a shell
+  -s SRPM, --srpm SRPM  SRPMs for which dependencies will be installed
+  -d DIR, --dir DIR     Local dir to mount in the image. Will be mounted at
+                        /external/<dirname>
+  -e ENV, --env ENV     Environment variables passed directly to docker -e
+  -v VOLUME, --volume VOLUME
+                        Volume mounts passed directly to docker -v
+  --rm                  Destroy the container on exit
+  --syslog              Enable syslog to host by mounting in /dev/log
+  --name NAME           Assign a name to the container
 ```
 
-## Building packages
+**Examples**
+
+Rebuild an existing source RPM (with automated installation of the build dependencies)
+```sh
+./run.py -b dev --rebuild-srpm /path/to/some-source-rpm.src.rpm --output-dir /path/to/output/directory --rm
+```
+
+Build from git (and put the result into RPMS/ and SRPMS/ subdirectories)
+```sh
+git clone https://github.com/xcp-ng-rpms/xapi.git
+
+# ... here add your patches ...
+
+/path/to/run.py -b dev --buildlocal xapi --rm
+```
+
+**Important switches**
+
+* `-b` / `--branch` allows to select which version of XCP-ng to work on (defaults to `dev` if not specified).
+* `--no-exit` drops you to a shell after the build, instead of closing the container. Useful if the build fails and you need to debug.
+* `--rm` destroys the container on exit. Helps preventing docker from using too much space on disk. You can still reclaim space afterwards by running `docker container prune` and `docker image prune`
+* `-v` / `--volume` (see *Mounting repos from outside the container* below)
+
+
+## Building packages manually
+
+If you need to build packages manually, here are some useful commands
 
 Install the dependencies of the package using yum:
 
@@ -48,7 +114,7 @@ yumdownloader --source xapi
 rpmbuild --rebuild xapi*
 ```
 
-or clone the source from github or xenbits:
+or clone the source from a git repository:
 
 ```sh
 git clone git://github.com/xapi-project/xen-api
@@ -80,8 +146,3 @@ Then the following format is available to set the UID/GID:
 ```sh
 -u, --user=                Username or UID (format: <name|uid>[:<group|gid>])
 ```
-
-[travis-badge]: https://travis-ci.org/xenserver/xenserver-build-env.png?branch=master
-[travis-url]: https://travis-ci.org/xenserver/xenserver-build-env
-[docker-pulls-badge]: https://img.shields.io/docker/pulls/xenserver/xenserver-build-env.svg
-[docker-url]: https://hub.docker.com/r/xenserver/xenserver-build-env/
