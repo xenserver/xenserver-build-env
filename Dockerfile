@@ -1,23 +1,26 @@
-FROM                                   centos:7.2.1511
-LABEL maintainer.name="Jon Ludlam" \
-      maintainer.email="jonathan.ludlam@citrix.com"
+FROM    centos:7.2.1511
 
-# Update yum.conf - not default!
-COPY    files/yum.conf.xs              /etc/yum.conf.xs
+# Remove all repositories
+RUN     rm /etc/yum.repos.d/*
 
-# Add the Citrix yum repo and GPG key
-RUN     mkdir -p /etc/yum.repos.d.xs
-COPY    files/Citrix.repo.in           /tmp/Citrix.repo.in
-COPY    files/RPM-GPG-KEY-Citrix-6.6   /etc/pki/rpm-gpg/RPM-GPG-KEY-Citrix-6.6
+# Add only the specific CentOS 7.2 repositories, because that's what XS used for the majority of packages
+COPY    files/CentOS-Vault-7.2.repo /etc/yum.repos.d/
 
-# Add the publicly available repo
-COPY    files/xs.repo.in /tmp/xs.repo.in
+# Add our repositories
+# Repository file depends on the target version of XCP-ng, and is pre-processed by build.sh
+COPY    files/tmp-xcp-ng.repo /etc/yum.repos.d/xcp-ng.repo
 
 # Fix invalid rpmdb checksum error with overlayfs, see https://github.com/docker/docker/issues/10180
-RUN yum install -y yum-plugin-ovl
+RUN     yum install -y yum-plugin-ovl
+
+# Use priorities so that packages from our repositories are preferred over those from CentOS repositories
+RUN     yum install -y yum-plugin-priorities
+
+# Update
+RUN     yum update -y
 
 # Build requirements
-RUN     yum install -y \
+RUN     yum install -y --exclude=gcc-xs \
             gcc \
             gcc-c++ \
             git \
@@ -32,16 +35,9 @@ RUN     yum install -y \
 
 # Niceties
 RUN     yum install -y \
-            tig \
-            tmux \
             vim \
             wget \
             which
-
-# Install planex
-#RUN     yum -y install https://xenserver.github.io/planex-release/release/rpm/el/planex-release-7-1.noarch.rpm
-#RUN     cp /etc/yum.repos.d/planex-release.repo /etc/yum.repos.d.xs/planex-release.repo
-#RUN     yum -y install planex
 
 # OCaml in XS is slightly older than in CentOS
 RUN     sed -i "/gpgkey/a exclude=ocaml*" /etc/yum.repos.d/Cent* /etc/yum.repos.d/epel*

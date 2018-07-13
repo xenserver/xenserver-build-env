@@ -1,0 +1,91 @@
+[xcp-ng-builddeps]
+name=XCP-ng Builddeps Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/builddeps/x86_64/
+enabled=1
+gpgcheck=0
+priority=1
+
+[xcp-ng-base]
+name=XCP-ng Base Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/base/x86_64/
+enabled=1
+gpgcheck=0
+priority=1
+exclude=xcp-ng-release systemd*
+
+[xcp-ng-updates]
+name=XCP-ng Updates Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates/x86_64/
+enabled=1
+gpgcheck=0
+priority=1
+exclude=xcp-ng-release systemd*
+
+[xcp-ng-updates_testing]
+name=XCP-ng Updates Testing Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates_testing/x86_64/
+enabled=0
+gpgcheck=0
+priority=1
+exclude=xcp-ng-release systemd*
+
+[xcp-ng-extras]
+name=XCP-ng Extras Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/extras/x86_64/
+enabled=0
+gpgcheck=0
+priority=1
+
+[xcp-ng-extras_testing]
+name=XCP-ng Extras Testing Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/extras_testing/x86_64/
+enabled=0
+gpgcheck=0
+priority=1
+
+# Source repositories
+
+[xcp-ng-builddeps-src]
+name=XCP-ng Builddeps Source Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/builddeps/Source/
+enabled=1
+gpgcheck=0
+priority=1
+
+[xcp-ng-base-src]
+name=XCP-ng Base Source Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/base/Source/
+enabled=1
+gpgcheck=0
+priority=1
+exclude=xcp-ng-release systemd*
+
+[xcp-ng-updates]
+name=XCP-ng Updates Source Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates/Source/
+enabled=1
+gpgcheck=0
+priority=1
+exclude=xcp-ng-release systemd*
+
+[xcp-ng-updates_testing]
+name=XCP-ng Updates Testing Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates_testing/Source/
+enabled=0
+gpgcheck=0
+priority=1
+exclude=xcp-ng-release systemd*
+
+[xcp-ng-extras]
+name=XCP-ng Extras Source Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/extras/Source/
+enabled=0
+gpgcheck=0
+priority=1
+
+[xcp-ng-extras_testing]
+name=XCP-ng Extras Testing Source Repository
+baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/extras_testing/Source/
+enabled=0
+gpgcheck=0
+priority=1
