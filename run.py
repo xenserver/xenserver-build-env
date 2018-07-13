@@ -51,6 +51,10 @@ def main():
                              "Any preexisting BUILD, BUILDROOT, RPMS or SRPMS directories will be removed first. " \
                              "If --output-dir is set, the RPMS and SRPMS directories will be copied to it " \
                              "after the build.")
+    parser.add_argument('--define',
+                        help="Definitions to be passed to rpmbuild (if --build-local or --rebuild-srpm are "\
+                             "passed too). Example: --define 'xcp_ng_section extras', for building the 'extras' " \
+                             "version of a package which exists in both 'base' and 'extras' versions.")
     parser.add_argument('-r', '--rebuild-srpm',
                         help="Install dependencies for the SRPM passed as parameter, then build it. " \
                              "Requires the --output-dir parameter to be set.")
@@ -91,6 +95,8 @@ def main():
     if args.build_local:
         docker_args += ["-v", "%s:/home/builder/rpmbuild" % os.path.abspath(args.build_local)]
         docker_args += ["-e", "BUILD_LOCAL=1"]
+    if args.define:
+        docker_args += ["-e", "RPMBUILD_DEFINE=%s" % args.define]
     if args.rebuild_srpm:
         if not os.path.isfile(args.rebuild_srpm) or not args.rebuild_srpm.endswith(".src.rpm"):
             parser.error("%s is not a valid source RPM." % args.rebuild_srpm)

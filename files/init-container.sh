@@ -36,18 +36,25 @@ done
 # double the default stack size
 ulimit -s 16384
 
+if [ ! -z "$RPMBUILD_DEFINE" ]; then
+    DEFINE='--define'
+else
+    DEFINE=""
+    RPMBUILD_DEFINE=""
+fi
+
 if [ ! -z $BUILD_LOCAL ]; then
     pushd ~/rpmbuild
     rm BUILD BUILDROOT RPMS SRPMS -rf
     sudo yum-builddep -y SPECS/*.spec \
-    && rpmbuild -ba SPECS/*.spec
+    && rpmbuild -ba SPECS/*.spec $DEFINE "$RPMBUILD_DEFINE"
     if [ $? == 0 -a -d ~/output/ ]; then
         cp -rf RPMS SRPMS ~/output/
     fi
     popd
 elif [ ! -z $REBUILD_SRPM ]; then
     # build deps already installed above
-    rpmbuild --rebuild $LOCAL_SRPM_DIR/$REBUILD_SRPM \
+    rpmbuild --rebuild $LOCAL_SRPM_DIR/$REBUILD_SRPM $DEFINE "$RPMBUILD_DEFINE" \
     && cp -rf ~/rpmbuild/RPMS ~/output/
 elif [ ! -z "$COMMAND" ]; then
     $COMMAND
