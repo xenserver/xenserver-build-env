@@ -22,7 +22,7 @@ You need one docker image per target version of XCP-ng.
 
 ```
 Usage: ./build.sh {version_of_XCP_ng}
-... where {version_of_XCP_ng} is either dev, current (for current stable release), or a 'x.y' version such as 7.5.
+... where {version_of_XCP_ng} is either dev, latest (for latest stable release), or a 'x.y' version such as 7.5.
 ```
 
 ## Using the container
