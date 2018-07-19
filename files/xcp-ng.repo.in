@@ -11,7 +11,6 @@ baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/base/x86_64/
 enabled=1
 gpgcheck=0
 priority=1
-exclude=xcp-ng-release systemd*
 
 [xcp-ng-updates]
 name=XCP-ng Updates Repository
@@ -19,7 +18,6 @@ baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates/x86_64/
 enabled=1
 gpgcheck=0
 priority=1
-exclude=xcp-ng-release systemd*
 
 [xcp-ng-updates_testing]
 name=XCP-ng Updates Testing Repository
@@ -27,7 +25,6 @@ baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates_testing/x86_64/
 enabled=0
 gpgcheck=0
 priority=1
-exclude=xcp-ng-release systemd*
 
 [xcp-ng-extras]
 name=XCP-ng Extras Repository
@@ -58,7 +55,6 @@ baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/base/Source/
 enabled=1
 gpgcheck=0
 priority=1
-exclude=xcp-ng-release systemd*
 
 [xcp-ng-updates]
 name=XCP-ng Updates Source Repository
@@ -66,7 +62,6 @@ baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates/Source/
 enabled=1
 gpgcheck=0
 priority=1
-exclude=xcp-ng-release systemd*
 
 [xcp-ng-updates_testing]
 name=XCP-ng Updates Testing Repository
@@ -74,7 +69,6 @@ baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates_testing/Source/
 enabled=0
 gpgcheck=0
 priority=1
-exclude=xcp-ng-release systemd*
 
 [xcp-ng-extras]
 name=XCP-ng Extras Source Repository
