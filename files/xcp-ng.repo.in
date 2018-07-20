@@ -59,28 +59,28 @@ enabled=1
 gpgcheck=0
 priority=1
 
-[xcp-ng-updates]
+[xcp-ng-updates-src]
 name=XCP-ng Updates Source Repository
 baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates/Source/
 enabled=1
 gpgcheck=0
 priority=1
 
-[xcp-ng-updates_testing]
+[xcp-ng-updates_testing-src]
 name=XCP-ng Updates Testing Repository
 baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/updates_testing/Source/
 enabled=0
 gpgcheck=0
 priority=1
 
-[xcp-ng-extras]
+[xcp-ng-extras-src]
 name=XCP-ng Extras Source Repository
 baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/extras/Source/
 enabled=0
 gpgcheck=0
 priority=1
 
-[xcp-ng-extras_testing]
+[xcp-ng-extras_testing-src]
 name=XCP-ng Extras Testing Source Repository
 baseurl=https://updates.xcp-ng.org/7/@XCP_NG_BRANCH@/extras_testing/Source/
 enabled=0
