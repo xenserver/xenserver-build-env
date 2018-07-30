@@ -33,10 +33,9 @@ Use the `run.py` script. It accepts a variety of parameters allowing for differe
 * or simply start a shell in the build environment, with the appropriate CentOS, EPEL et XCP-ng yum repositories enabled.
 
 ```sh
-[samuel2@localhost xcp-ng-build-env (xcp-ng-isation)]$ ./run.py --help
-usage: run.py [-h] [-b BRANCH] [-l BUILD_LOCAL] [-r REBUILD_SRPM]
-              [-o OUTPUT_DIR] [-n] [-p PACKAGE] [-s SRPM] [-d DIR] [-e ENV]
-              [-v VOLUME] [--rm] [--syslog] [--name NAME]
+usage: run.py [-h] [-b BRANCH] [-l BUILD_LOCAL] [--define DEFINE]
+              [-r REBUILD_SRPM] [-o OUTPUT_DIR] [-n] [-p PACKAGE] [-s SRPM]
+              [-d DIR] [-e ENV] [-v VOLUME] [--rm] [--syslog] [--name NAME]
               ...
 
 positional arguments:
@@ -56,6 +55,11 @@ optional arguments:
                         directories will be removed first. If --output-dir is
                         set, the RPMS and SRPMS directories will be copied to
                         it after the build.
+  --define DEFINE       Definitions to be passed to rpmbuild (if --build-local
+                        or --rebuild-srpm are passed too). Example: --define
+                        'xcp_ng_section extras', for building the 'extras'
+                        version of a package which exists in both 'base' and
+                        'extras' versions.
   -r REBUILD_SRPM, --rebuild-srpm REBUILD_SRPM
                         Install dependencies for the SRPM passed as parameter,
                         then build it. Requires the --output-dir parameter to
