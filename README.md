@@ -79,6 +79,11 @@ optional arguments:
   --rm                  Destroy the container on exit
   --syslog              Enable syslog to host by mounting in /dev/log
   --name NAME           Assign a name to the container
+  -a ENABLEREPO, --enablerepo ENABLEREPO
+                        additional repositories to enable before installing
+                        build dependencies. Same syntax as yum's --enablerepo
+                        parameter. Available additional repositories: xcp-ng-
+                        updates_testing, xcp-ng-extras, xcp-ng-extras_testing.
 ```
 
 **Examples**
