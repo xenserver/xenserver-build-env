@@ -3,6 +3,14 @@
 # clean yum cache to avoid download errors
 sudo yum clean all
 
+# enable additional repositories if needed
+if [ -n "$ENABLEREPO" ]; then
+    sudo yum-config-manager --enable "$ENABLEREPO"
+fi
+
+# update to either install newer updates or to take packages from added repos into account
+sudo yum update -y --disablerepo=epel
+
 cd $HOME
 
 SRPM_MOUNT_DIR=/mnt/docker-SRPMS/
