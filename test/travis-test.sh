@@ -2,7 +2,7 @@
 
 set -eux
 
-./build.sh
+./build.sh dev
 
 PACKAGE=xcp-networkd
 REPO=xcp-networkd
