@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! -z $FAIL_ON_ERROR ]; then
+    set -e
+fi
+
 # clean yum cache to avoid download errors
 sudo yum clean all
 

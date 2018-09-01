@@ -45,23 +45,23 @@ def main():
     parser.add_argument('-b', '--branch',
                         help='XCP-ng version: 7.5, dev, etc. If not set, will default to dev.')
     parser.add_argument('-l', '--build-local',
-                        help="Install dependencies for the spec file(s) found in the SPECS/ subdirectory " \
-                             "of the directory passed as parameter, then build the RPM(s). " \
-                             "Built RPMs and SRPMs will be in RPMS/ and SRPMS/ subdirectories. " \
-                             "Any preexisting BUILD, BUILDROOT, RPMS or SRPMS directories will be removed first. " \
-                             "If --output-dir is set, the RPMS and SRPMS directories will be copied to it " \
+                        help="Install dependencies for the spec file(s) found in the SPECS/ subdirectory "
+                             "of the directory passed as parameter, then build the RPM(s). "
+                             "Built RPMs and SRPMs will be in RPMS/ and SRPMS/ subdirectories. "
+                             "Any preexisting BUILD, BUILDROOT, RPMS or SRPMS directories will be removed first. "
+                             "If --output-dir is set, the RPMS and SRPMS directories will be copied to it "
                              "after the build.")
     parser.add_argument('--define',
-                        help="Definitions to be passed to rpmbuild (if --build-local or --rebuild-srpm are "\
-                             "passed too). Example: --define 'xcp_ng_section extras', for building the 'extras' " \
+                        help="Definitions to be passed to rpmbuild (if --build-local or --rebuild-srpm are "
+                             "passed too). Example: --define 'xcp_ng_section extras', for building the 'extras' "
                              "version of a package which exists in both 'base' and 'extras' versions.")
     parser.add_argument('-r', '--rebuild-srpm',
-                        help="Install dependencies for the SRPM passed as parameter, then build it. " \
+                        help="Install dependencies for the SRPM passed as parameter, then build it. "
                              "Requires the --output-dir parameter to be set.")
     parser.add_argument('-o', '--output-dir',
                         help="Output directory for --rebuild-srpm and --build-local.")
     parser.add_argument('-n', '--no-exit', action='store_true',
-                        help='After executing either an automated build or a custom command passed as parameter, ' \
+                        help='After executing either an automated build or a custom command passed as parameter, '
                              'drop user into a shell')
     parser.add_argument('-p', '--package', action='append',
                         help='Packages for which dependencies will '
@@ -85,6 +85,9 @@ def main():
                         help='additional repositories to enable before installing build dependencies. '
                              'Same syntax as yum\'s --enablerepo parameter. Available additional repositories: '
                              'xcp-ng-updates_testing, xcp-ng-extras, xcp-ng-extras_testing.')
+    parser.add_argument('--fail-on-error', action='store_true',
+                        help='If container initialisation fails, exit rather than dropping the user'
+                             'into a command shell')
     parser.add_argument('command', nargs=argparse.REMAINDER,
                         help='Command to run inside the prepared container')
 
@@ -116,6 +119,8 @@ def main():
         docker_args += ["-v", "%s:/home/builder/output" % os.path.abspath(args.output_dir)]
     if args.no_exit:
         docker_args += ["-e", "NO_EXIT=1"]
+    if args.fail_on_error:
+        docker_args += ["-e", "FAIL_ON_ERROR=1"]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)

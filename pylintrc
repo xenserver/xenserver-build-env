@@ -8,7 +8,7 @@
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=R0902,R0912,R0913,R0914
+disable=R0902,R0912,R0913,R0914,R0915
 
 
 [REPORTS]
@@ -25,3 +25,6 @@ files-output=no
 
 # Tells whether to display a full report or only the messages
 reports=no
+
+# Allow 120 characters per line
+max-line-length=120
