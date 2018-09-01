@@ -1,5 +1,7 @@
 # xcp-ng-build-env
 
+[![Build status][travis-badge]][travis-url]
+
 This docker config and collection of supporting scripts allows for creating
 a docker container to work on and build a XCP-ng package from an SRPM or from
 a directory containing a `SOURCES/` and a `SPECS/` directory along with appropriate
@@ -159,3 +161,6 @@ Then the following format is available to set the UID/GID:
 ```sh
 -u, --user=                Username or UID (format: <name|uid>[:<group|gid>])
 ```
+
+[travis-badge]: https://travis-ci.org/xcp-ng/xcp-ng-build-env.png?branch=master
+[travis-url]: https://travis-ci.org/xcp-ng/xcp-ng-build-env
