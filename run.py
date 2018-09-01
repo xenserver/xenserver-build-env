@@ -85,6 +85,9 @@ def main():
                         help='additional repositories to enable before installing build dependencies. '
                              'Same syntax as yum\'s --enablerepo parameter. Available additional repositories: '
                              'xcp-ng-updates_testing, xcp-ng-extras, xcp-ng-extras_testing.')
+    parser.add_argument('--fail-on-error', action='store_true',
+                        help='If container initialisation fails, exit rather than dropping the user'
+                             'into a command shell')
     parser.add_argument('command', nargs=argparse.REMAINDER,
                         help='Command to run inside the prepared container')
 
@@ -116,6 +119,8 @@ def main():
         docker_args += ["-v", "%s:/home/builder/output" % os.path.abspath(args.output_dir)]
     if args.no_exit:
         docker_args += ["-e", "NO_EXIT=1"]
+    if args.fail_on_error:
+        docker_args += ["-e", "FAIL_ON_ERROR=1"]
     # Add package names to the environment
     if args.package:
         packages = ' '.join(args.package)
