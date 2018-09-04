@@ -18,7 +18,7 @@ want.
 You'll need to install docker. Follow the instructions for your platform on
 https://www.docker.com/
 
-## Building
+## Building the docker image(s)
 
 You need one docker image per target version of XCP-ng.
 
@@ -32,7 +32,7 @@ Usage: ./build.sh {version_of_XCP_ng}
 Use the `run.py` script. It accepts a variety of parameters allowing for different uses:
 * rebuild an existing source RPM (with automated installation of the build dependencies)
 * build a package from an already extracted source RPM (sources and spec file), or from a directory that follows the rpmbuild convention (a `SOURCES/` directory and a `SPECS/` directory). Most useful for building packages from XCP-ng's git repositories of RPM sources: https://github.com/xcp-ng-rpms.
-* or simply start a shell in the build environment, with the appropriate CentOS, EPEL et XCP-ng yum repositories enabled.
+* or simply start a shell in the build environment, with the appropriate CentOS, EPEL and XCP-ng yum repositories enabled.
 
 ```sh
 usage: run.py [-h] [-b BRANCH] [-l BUILD_LOCAL] [--define DEFINE]
@@ -92,17 +92,23 @@ optional arguments:
 
 Rebuild an existing source RPM (with automated installation of the build dependencies)
 ```sh
-./run.py -b dev --rebuild-srpm /path/to/some-source-rpm.src.rpm --output-dir /path/to/output/directory --rm
+./run.py -b 7.5 --rebuild-srpm /path/to/some-source-rpm.src.rpm --output-dir /path/to/output/directory --rm
 ```
 
 Build from git (and put the result into RPMS/ and SRPMS/ subdirectories)
 ```sh
+# Find the relevant repository at https://github.com/xcp-ng-rpms/
+# Make sure you have git-lfs installed before cloning.
+# Then... (Example taken: xapi)
 git clone https://github.com/xcp-ng-rpms/xapi.git
 
-# ... here add your patches ...
+# ... Here add your patches ...
 
-/path/to/run.py -b dev --buildlocal xapi --rm
+# Build.
+/path/to/run.py -b 7.5 --buildlocal xapi/ --rm
 ```
+
+**Warning:** The --build-local switch assumes that your current user has uid 1000. If it's not the case, it will fail at writing to the directory passed as parameter (xapi/ in our example). You can workaround that by changing the owner of the directory and everything it contains. Example: `sudo chown 1000 xapi/ -R`.
 
 **Important switches**
 
@@ -129,7 +135,7 @@ yumdownloader --source xapi
 rpmbuild --rebuild xapi*
 ```
 
-or clone the source from a git repository:
+## Building from upstream sources, without producing RPMs
 
 ```sh
 git clone git://github.com/xapi-project/xen-api
