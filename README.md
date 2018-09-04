@@ -131,14 +131,14 @@ Install the dependencies of the package using yum:
 yum-builddep xapi
 ```
 
-then either download the SRPM using yumdownloader:
+then either download the SRPM using yumdownloader and rebuild it:
 
 ```sh
 yumdownloader --source xapi
 rpmbuild --rebuild xapi*
 ```
 
-## Building from upstream sources, without producing RPMs
+or build from upstream sources, without producing RPMs:
 
 ```sh
 git clone git://github.com/xapi-project/xen-api
