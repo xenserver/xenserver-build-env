@@ -38,6 +38,7 @@ Use the `run.py` script. It accepts a variety of parameters allowing for differe
 usage: run.py [-h] [-b BRANCH] [-l BUILD_LOCAL] [--define DEFINE]
               [-r REBUILD_SRPM] [-o OUTPUT_DIR] [-n] [-p PACKAGE] [-s SRPM]
               [-d DIR] [-e ENV] [-v VOLUME] [--rm] [--syslog] [--name NAME]
+              [-a ENABLEREPO] [--fail-on-error]
               ...
 
 positional arguments:
@@ -86,6 +87,8 @@ optional arguments:
                         build dependencies. Same syntax as yum's --enablerepo
                         parameter. Available additional repositories: xcp-ng-
                         updates_testing, xcp-ng-extras, xcp-ng-extras_testing.
+  --fail-on-error       If container initialisation fails, exit rather than
+                        dropping the user into a command shell
 ```
 
 **Examples**
