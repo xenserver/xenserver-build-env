@@ -153,7 +153,7 @@ def main():
         docker_args += ["-e", "ENABLEREPO=%s" % args.enablerepo]
 
     # exec "docker run"
-    docker_args += ["%s-%s" % (CONTAINER_PREFIX, branch), "/usr/local/bin/init-container.sh"]
+    docker_args += ["%s:%s" % (CONTAINER_PREFIX, branch), "/usr/local/bin/init-container.sh"]
     print >> sys.stderr, "Launching docker with args %s" % docker_args
     return_code = subprocess.call(docker_args)
 

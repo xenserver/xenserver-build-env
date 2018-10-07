@@ -7,5 +7,5 @@ if [ -z $1 ]; then
 fi
 
 sed -e "s/@XCP_NG_BRANCH@/$1/" files/xcp-ng.repo.in > files/tmp-xcp-ng.repo
-docker build -t xcp-ng/xcp-ng-build-env-$1 .
+docker build -t xcp-ng/xcp-ng-build-env:$1 .
 rm files/tmp-xcp-ng.repo -f
