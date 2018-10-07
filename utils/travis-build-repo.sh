@@ -2,14 +2,14 @@
 
 # This script is intended to called from inside a git repo by travis.
 # It will download travis-build-repo-internal.sh and run.py, launch a
-# xenserver-build-env container with the git repo mounted, and will finally
+# xcp-ng-build-env container with the git repo mounted, and will finally
 # run the script travis-build-repo-internal.sh inside the container.
 #
 # travis-build-repo.sh makes use of the following environment variables:
 # $CONTAINER_NAME (option - default 'build-env')
 # - The name to use for the container. Useful if you want to copy build
 #   artifacts out of the container once the build is finished.
-# $BUILDENV_USER (optional - default 'xenserver')
+# $BUILDENV_USER (optional - default 'xcp-ng')
 # - The github user from which to pull the required scripts.
 # $BUILDENV_BRANCH (optional - default 'master')
 # - The github branch from which to pull the required scripts.
@@ -27,11 +27,11 @@
 set -eux
 
 CONTAINER_NAME=${CONTAINER_NAME:-build-env}
-BUILDENV_USER=${BUILDENV_USER:-xenserver}
+BUILDENV_USER=${BUILDENV_USER:-xcp-ng}
 BUILDENV_BRANCH=${BUILDENV_BRANCH:-master}
 GIT_BRANCH=${GIT_BRANCH:-$TRAVIS_BRANCH}
 
-BASE_URL=https://raw.githubusercontent.com/${BUILDENV_USER}/xenserver-build-env/${BUILDENV_BRANCH}
+BASE_URL=https://raw.githubusercontent.com/${BUILDENV_USER}/xcp-ng-build-env/${BUILDENV_BRANCH}
 
 RUN_SCRIPT=run.py
 BUILD_SCRIPT=travis-build-repo-internal.sh
