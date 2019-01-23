@@ -49,4 +49,5 @@ RUN     useradd builder \
         && usermod -G mock builder
 
 RUN     mkdir -p /usr/local/bin
-COPY    files/init-container.sh        /usr/local/bin/init-container.sh
+COPY    files/init-container.sh /usr/local/bin/init-container.sh
+COPY    files/rpmmacros /home/builder/.rpmmacros
