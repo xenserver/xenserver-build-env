@@ -24,6 +24,7 @@ RUN     yum install -y --exclude=gcc-xs \
             gcc \
             gcc-c++ \
             git \
+            git-lfs \
             make \
             mercurial \
             mock \
