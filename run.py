@@ -15,6 +15,7 @@ import uuid
 CONTAINER_PREFIX = "xcp-ng/xcp-ng-build-env"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 
+DEFAULT_BRANCH='8.0'
 
 def make_mount_dir():
     """
@@ -43,7 +44,7 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XCP-ng version: 7.5, dev, etc. If not set, will default to dev.')
+                        help='XCP-ng version: 7.6, %s, etc. If not set, will default to %s.' % (DEFAULT_BRANCH, DEFAULT_BRANCH))
     parser.add_argument('-l', '--build-local',
                         help="Install dependencies for the spec file(s) found in the SPECS/ subdirectory "
                              "of the directory passed as parameter, then build the RPM(s). "
@@ -95,7 +96,7 @@ def main():
     docker_args = ["docker", "run", "-i", "-t", "-u", "builder"]
     if args.rm:
         docker_args += ["--rm=true"]
-    branch = args.branch or 'dev'
+    branch = args.branch or DEFAULT_BRANCH
 
     if args.command != []:
         docker_args += ["-e", "COMMAND=%s" % ' '.join(args.command)]
