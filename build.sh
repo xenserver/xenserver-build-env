@@ -2,7 +2,7 @@
 set -e
 if [ -z $1 ]; then
     echo "Usage: $0 {version}"
-    echo "... where {version} is either dev, latest (for latest stable release), or a 'x.y' version such as 8.0."
+    echo "... where {version} is a 'x.y' version such as 8.0."
     exit
 fi
 

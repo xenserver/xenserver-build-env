@@ -24,7 +24,7 @@ You need one docker image per target version of XCP-ng.
 
 ```
 Usage: ./build.sh {version_of_XCP_ng}
-... where {version_of_XCP_ng} is either dev, latest (for latest stable release), or a 'x.y' version such as 7.5.
+... where {version_of_XCP_ng} is a 'x.y' version such as 8.0.
 ```
 
 ## Using the container
@@ -47,8 +47,8 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -b BRANCH, --branch BRANCH
-                        XCP-ng version: 7.5, dev, etc. If not set, will
-                        default to dev.
+                        XCP-ng version: 7.6, 8.0, etc. If not set, will
+                        default to 8.0.
   -l BUILD_LOCAL, --build-local BUILD_LOCAL
                         Install dependencies for the spec file(s) found in the
                         SPECS/ subdirectory of the directory passed as
@@ -95,7 +95,7 @@ optional arguments:
 
 Rebuild an existing source RPM (with automated installation of the build dependencies)
 ```sh
-./run.py -b 7.5 --rebuild-srpm /path/to/some-source-rpm.src.rpm --output-dir /path/to/output/directory --rm
+./run.py -b 8.0 --rebuild-srpm /path/to/some-source-rpm.src.rpm --output-dir /path/to/output/directory --rm
 ```
 
 Build from git (and put the result into RPMS/ and SRPMS/ subdirectories)
@@ -108,14 +108,14 @@ git clone https://github.com/xcp-ng-rpms/xapi.git
 # ... Here add your patches ...
 
 # Build.
-/path/to/run.py -b 7.6 --build-local xapi/ --rm
+/path/to/run.py -b 8.0 --build-local xapi/ --rm
 ```
 
 **Warning:** The --build-local switch assumes that your current user has uid 1000. If it's not the case, it will fail at writing to the directory passed as parameter (xapi/ in our example). You can workaround that by changing the owner of the directory and everything it contains. Example: `sudo chown 1000 xapi/ -R`.
 
 **Important switches**
 
-* `-b` / `--branch` allows to select which version of XCP-ng to work on (defaults to `dev` if not specified).
+* `-b` / `--branch` allows to select which version of XCP-ng to work on (defaults to the latest known version if not specified).
 * `--no-exit` drops you to a shell after the build, instead of closing the container. Useful if the build fails and you need to debug.
 * `--rm` destroys the container on exit. Helps preventing docker from using too much space on disk. You can still reclaim space afterwards by running `docker container prune` and `docker image prune`
 * `-v` / `--volume` (see *Mounting repos from outside the container* below)
@@ -147,8 +147,8 @@ cd xen-api
 make
 ```
 
-## Mounting repos from outside the container
-If you'd like to develop using the tools on your host and preseve the changes
+## Mounting external directories into the container
+If you'd like to develop using the tools on your host and preserve the changes
 to source and revision control but still use the container for building, you
 can do using by using a docker volume.
 
