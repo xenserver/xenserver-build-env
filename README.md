@@ -111,7 +111,7 @@ git clone https://github.com/xcp-ng-rpms/xapi.git
 /path/to/run.py -b 8.0 --build-local xapi/ --rm
 ```
 
-**Warning:** The --build-local switch assumes that your current user has uid 1000. If it's not the case, it will fail at writing to the directory passed as parameter (xapi/ in our example). You can workaround that by changing the owner of the directory and everything it contains. Example: `sudo chown 1000 xapi/ -R`.
+**Warning:** The --build-local switch assumes that your current user has uid 1000. If it's not the case, it will fail at writing to the directory passed as parameter (xapi/ in our example). You can workaround that by changing the owner of the directory and everything it contains. Example: `sudo chown 1000.1000 xapi/ -R`.
 
 **Important switches**
 
