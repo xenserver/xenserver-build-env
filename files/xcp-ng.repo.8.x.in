@@ -13,7 +13,7 @@ gpgcheck=0
 priority=1
 
 [xcp-ng-testing]
-name=XCP-ng Updates Testing Repository
+name=XCP-ng Testing Repository
 baseurl=http://mirrors.xcp-ng.org/8/@XCP_NG_BRANCH@/testing/x86_64/
 enabled=0
 gpgcheck=0
@@ -36,7 +36,7 @@ gpgcheck=0
 priority=1
 
 [xcp-ng-testing-src]
-name=XCP-ng Updates Testing Repository
+name=XCP-ng Testing Source Repository
 baseurl=http://mirrors.xcp-ng.org/8/@XCP_NG_BRANCH@/testing/Source/
 enabled=0
 gpgcheck=0
