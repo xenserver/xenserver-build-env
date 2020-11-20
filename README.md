@@ -22,6 +22,8 @@ https://www.docker.com/
 
 You need one docker image per target version of XCP-ng.
 
+Clone this repository (outside any docker container), then use `build.sh` to generate the docker images for the wanted releases of XCP-ng.
+
 ```
 Usage: ./build.sh {version_of_XCP_ng}
 ... where {version_of_XCP_ng} is a 'x.y' version such as 8.0.
