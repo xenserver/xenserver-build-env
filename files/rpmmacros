@@ -1,3 +1,8 @@
+# The changes below regarding opamroot are only needed for older XCP-ng releases
+# Starting with more recent XCP-ng releases (8.1? 8.2?), xs-opam-repo includes a profile.d
+# file that one has to source, which we do when we start the container.
+# And by the way opamroot has moved to /usr/lib64
+
 # taken from /usr/lib/rpm/macros
 %__spec_build_pre %{___build_pre}\
     [ ! -d /usr/lib/opamroot ] || eval $(opam config env --root=/usr/lib/opamroot)

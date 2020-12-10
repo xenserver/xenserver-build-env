@@ -52,6 +52,8 @@ if [ ! -z $BUILD_LOCAL ]; then
     pushd ~/rpmbuild
     rm BUILD BUILDROOT RPMS SRPMS -rf
     sudo yum-builddep -y SPECS/*.spec
+    # in case the build deps contain xs-opam-repo, source the added profile.d file
+    [ ! -f /etc/profile.d/opam.sh ] || source /etc/profile.d/opam.sh
     if [ $? == 0 ]; then
         if [ ! -z "$RPMBUILD_DEFINE" ]; then
             rpmbuild -ba SPECS/*.spec --define "$RPMBUILD_DEFINE"
@@ -65,6 +67,8 @@ if [ ! -z $BUILD_LOCAL ]; then
     popd
 elif [ ! -z $REBUILD_SRPM ]; then
     # build deps already installed above
+    # in case the build deps contain xs-opam-repo, source the added profile.d file
+    [ ! -f /etc/profile.d/opam.sh ] || source /etc/profile.d/opam.sh
     if [ ! -z "$RPMBUILD_DEFINE" ]; then
         rpmbuild --rebuild $LOCAL_SRPM_DIR/$REBUILD_SRPM --define "$RPMBUILD_DEFINE"
     else
