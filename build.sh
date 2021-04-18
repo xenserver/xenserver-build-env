@@ -21,6 +21,11 @@ fi
 sed -e "s/@XCP_NG_BRANCH@/$1/g" "$REPO_FILE" > files/tmp-xcp-ng.repo
 sed -e "s/@CENTOS_VERSION@/$CENTOS_VERSION/g" files/CentOS-Vault.repo.in > files/tmp-CentOS-Vault.repo
 
+# Support using docker on arm64, building
+# for amd64 (e.g. Apple Silicon)
+if [ "$(uname -m)" == "arm64" ]; then
+    CUSTOM_ARGS+=( "--platform" "linux/amd64" )
+fi
 
 # Support for seamless use of current host user
 # and Docker user "builder" inside the image
