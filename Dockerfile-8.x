@@ -1,5 +1,8 @@
 FROM    centos:7.5.1804
 
+ARG     CUSTOM_BUILDER_UID=""
+ARG     CUSTOM_BUILDER_GID=""
+
 # Remove all repositories
 RUN     rm /etc/yum.repos.d/*
 
@@ -44,7 +47,19 @@ RUN     yum install -y \
 RUN     sed -i "/gpgkey/a exclude=ocaml*" /etc/yum.repos.d/Cent* /etc/yum.repos.d/epel*
 
 # Set up the builder user
-RUN     useradd builder \
+RUN     bash -c ' \
+            if [ -n "${CUSTOM_BUILDER_UID}" ]; then \
+                if [ -z "${CUSTOM_BUILDER_GID}" ]; then \
+                    export CUSTOM_BUILDER_GID="${CUSTOM_BUILDER_UID}"; \
+                fi; \
+                if ! egrep -q "^.*:.:${CUSTOM_BUILDER_GID}:"; then \
+                    groupadd -g "${CUSTOM_BUILDER_GID}" builder; \
+                fi; \
+                useradd -u "${CUSTOM_BUILDER_UID}" -g "${CUSTOM_BUILDER_GID}" builder; \
+            else \
+                useradd builder; \
+            fi; \
+        ' \
         && echo "builder:builder" | chpasswd \
         && echo "builder ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers \
         && usermod -G mock builder
