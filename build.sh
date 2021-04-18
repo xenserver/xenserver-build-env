@@ -21,5 +21,5 @@ sed -e "s/@CENTOS_VERSION@/$CENTOS_VERSION/g" files/CentOS-Vault.repo.in > files
 
 docker build -t xcp-ng/xcp-ng-build-env:$1 -f Dockerfile-$MAJOR.x .
 
-rm files/tmp-xcp-ng.repo -f
-rm files/tmp-CentOS-Vault.repo -f
+rm -f files/tmp-xcp-ng.repo
+rm -f files/tmp-CentOS-Vault.repo
