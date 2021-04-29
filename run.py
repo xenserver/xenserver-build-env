@@ -15,7 +15,8 @@ import uuid
 CONTAINER_PREFIX = "xcp-ng/xcp-ng-build-env"
 SRPMS_MOUNT_ROOT = "/tmp/docker-SRPMS"
 
-DEFAULT_BRANCH='8.0'
+DEFAULT_BRANCH = '8.0'
+
 
 def make_mount_dir():
     """
@@ -44,7 +45,8 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--branch',
-                        help='XCP-ng version: 7.6, %s, etc. If not set, will default to %s.' % (DEFAULT_BRANCH, DEFAULT_BRANCH))
+                        help='XCP-ng version: 7.6, %s, etc. If not set, '
+                             'will default to %s.' % (DEFAULT_BRANCH, DEFAULT_BRANCH))
     parser.add_argument('-l', '--build-local',
                         help="Install dependencies for the spec file(s) found in the SPECS/ subdirectory "
                              "of the directory passed as parameter, then build the RPM(s). "
@@ -93,7 +95,10 @@ def main():
                         help='Command to run inside the prepared container')
 
     args = parser.parse_args(sys.argv[1:])
+
     docker_args = ["docker", "run", "-i", "-t", "-u", "builder"]
+    if os.uname()[4] == "arm64":
+        docker_args += ["--platform", "linux/amd64"]
     if args.rm:
         docker_args += ["--rm=true"]
     branch = args.branch or DEFAULT_BRANCH
@@ -101,7 +106,8 @@ def main():
     if args.command != []:
         docker_args += ["-e", "COMMAND=%s" % ' '.join(args.command)]
     if args.build_local:
-        docker_args += ["-v", "%s:/home/builder/rpmbuild" % os.path.abspath(args.build_local)]
+        docker_args += ["-v", "%s:/home/builder/rpmbuild" %
+                        os.path.abspath(args.build_local)]
         docker_args += ["-e", "BUILD_LOCAL=1"]
     if args.define:
         docker_args += ["-e", "RPMBUILD_DEFINE=%s" % args.define]
@@ -109,15 +115,19 @@ def main():
         if not os.path.isfile(args.rebuild_srpm) or not args.rebuild_srpm.endswith(".src.rpm"):
             parser.error("%s is not a valid source RPM." % args.rebuild_srpm)
         if not args.output_dir:
-            parser.error("Missing --output-dir parameter, required by --rebuild-srpm.")
-        docker_args += ["-e", "REBUILD_SRPM=%s" % os.path.basename(args.rebuild_srpm)]
+            parser.error(
+                "Missing --output-dir parameter, required by --rebuild-srpm.")
+        docker_args += ["-e", "REBUILD_SRPM=%s" %
+                        os.path.basename(args.rebuild_srpm)]
         if args.srpm is None:
             args.srpm = []
         args.srpm.append(args.rebuild_srpm)
     if args.output_dir:
         if not os.path.isdir(args.output_dir):
-            parser.error("%s is not a valid output directory." % args.output_dir)
-        docker_args += ["-v", "%s:/home/builder/output" % os.path.abspath(args.output_dir)]
+            parser.error("%s is not a valid output directory." %
+                         args.output_dir)
+        docker_args += ["-v", "%s:/home/builder/output" %
+                        os.path.abspath(args.output_dir)]
     if args.no_exit:
         docker_args += ["-e", "NO_EXIT=1"]
     if args.fail_on_error:
@@ -154,7 +164,8 @@ def main():
         docker_args += ["-e", "ENABLEREPO=%s" % args.enablerepo]
 
     # exec "docker run"
-    docker_args += ["%s:%s" % (CONTAINER_PREFIX, branch), "/usr/local/bin/init-container.sh"]
+    docker_args += ["%s:%s" % (CONTAINER_PREFIX, branch),
+                    "/usr/local/bin/init-container.sh"]
     print >> sys.stderr, "Launching docker with args %s" % docker_args
     return_code = subprocess.call(docker_args)
 

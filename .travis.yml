@@ -1,11 +1,14 @@
+os: linux
+dist: bionic
 language: python
-sudo: required
+python:
+  - "2.7"
 services:
   - docker
 install:
-  - pip install pep8
+  - pip install pycodestyle
   - pip install pylint
 script:
-  - pep8 --max-line-length=120 --show-source --show-pep8 run.py
+  - pycodestyle --max-line-length=120 --show-source --show-pep8 run.py
   - pylint run.py
   - ./test/travis-test.sh

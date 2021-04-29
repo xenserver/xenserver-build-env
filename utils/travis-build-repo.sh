@@ -49,6 +49,7 @@ REPO_DOC_CMD=${REPO_DOC_CMD-}
 
 python run.py -p $REPO_PACKAGE_NAME --name ${CONTAINER_NAME} \
     --fail-on-error \
+    -b "${TARGET_XCP_NG_VERSION}" \
     -e "REPO_CONFIGURE_CMD=$REPO_CONFIGURE_CMD" \
     -e "REPO_BUILD_CMD=$REPO_BUILD_CMD" \
     -e "REPO_TEST_CMD=$REPO_TEST_CMD" \

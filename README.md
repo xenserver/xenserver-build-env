@@ -113,8 +113,6 @@ git clone https://github.com/xcp-ng-rpms/xapi.git
 /path/to/run.py -b 8.0 --build-local xapi/ --rm
 ```
 
-**Warning:** The --build-local switch assumes that your current user has uid 1000. If it's not the case, it will fail at writing to the directory passed as parameter (xapi/ in our example). You can workaround that by changing the owner of the directory and everything it contains. Example: `sudo chown 1000.1000 xapi/ -R`.
-
 **Important switches**
 
 * `-b` / `--branch` allows to select which version of XCP-ng to work on (defaults to the latest known version if not specified).
@@ -160,7 +158,7 @@ example, if I clone some repos into a directory on my host, say `/work/code/`,
 then I can mount it inside the container as follows:
 
 ```sh
-docker run -i -t -v /work/code:/mnt/repos -u $(id -u) <IMAGE> /bin/bash
+docker run -i -t -v /work/code:/mnt/repos -u builder <IMAGE> /bin/bash
 ```
 
 The `-u` flag uses the right UID inside so that changes made in the container
