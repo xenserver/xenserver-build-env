@@ -36,10 +36,24 @@ if [ "$(uname -m)" == "arm64" ]; then
     CUSTOM_ARGS+=( "--platform" "linux/amd64" )
 fi
 
+CUSTOM_UID="$(id -u)"
+CUSTOM_GID="$(id -g)"
+
+if [ "${CUSTOM_UID}" -eq 0 ] || [ "${CUSTOM_GID}" -eq 0 ]; then
+  if [ -z "${SUDO_GID}" ] || [ -z "${SUDO_UID}" ] || [ -z ${SUDO_USER} ] || \
+     [ -z "${SUDO_COMMAND}" ] || [ "${SUDO_GID}" -eq 0 ] || [ ${SUDO_UID} -eq 0 ]; then
+    echo -e "[ERROR] This operation cannot be performed by the 'root' user directly:"
+    echo -e "\tplease use an unprivileged user (eventually with 'sudo')"
+    exit 1
+  fi
+  CUSTOM_UID="${SUDO_UID}"
+  CUSTOM_GID="${SUDO_GID}"
+fi
+
 # Support for seamless use of current host user
 # and Docker user "builder" inside the image
-CUSTOM_ARGS+=( "--build-arg" "CUSTOM_BUILDER_UID=$(id -u)" )
-CUSTOM_ARGS+=( "--build-arg" "CUSTOM_BUILDER_GID=$(id -g)" )
+CUSTOM_ARGS+=( "--build-arg" "CUSTOM_BUILDER_UID=${CUSTOM_UID}" )
+CUSTOM_ARGS+=( "--build-arg" "CUSTOM_BUILDER_GID=${CUSTOM_GID}" )
 
 docker build \
     $(echo "${CUSTOM_ARGS[@]}") \
