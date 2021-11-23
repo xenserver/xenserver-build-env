@@ -12,8 +12,11 @@ for REPO in ${REPOS}; do
     REPO_PATH=/tmp/"$REPO"
     git clone --branch "$TARGET_XCP_NG_VERSION" git://github.com/xcp-ng-rpms/"$REPO" "$REPO_PATH"
 
-    TARGET_XCP_NG_VERSION="$TARGET_XCP_NG_VERSION" \
-        bash utils/build-repo.sh "$REPO_PATH"
+    python run.py --name "$CONTAINER_NAME" \
+        --fail-on-error \
+        -l "$REPO_PATH" \
+        -b "$TARGET_XCP_NG_VERSION" \
+        --rm
 
     rm -rf "$REPO_PATH"
 done
