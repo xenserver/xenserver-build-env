@@ -92,7 +92,7 @@ def main():
     if args.dir:
         for localdir in args.dir:
             if not os.path.isdir(localdir):
-                print "Local directory argument is not a directory!"
+                print("Local directory argument is not a directory!")
                 sys.exit(1)
             ext_path = os.path.abspath(localdir)
             int_path = os.path.basename(ext_path)
