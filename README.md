@@ -1,3 +1,6 @@
+**NOTE: The code in this repository has not been maintained for a long time
+      and will not work properly. The repository will be archived.**
+
 # xenserver-build-env
 
 [![Build status][travis-badge]][travis-url]
